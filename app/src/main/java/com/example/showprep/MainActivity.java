@@ -60,32 +60,6 @@ public class MainActivity extends AppCompatActivity {
         AuthenticationRequest request = builder.build();
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
-
-
-//        ConnectionParams connectionParams =
-////                new ConnectionParams.Builder(CLIENT_ID)
-////                        .setRedirectUri(REDIRECT_URI)
-////                        .showAuthView(true)
-////                        .build();
-////         connect(this, connectionParams,
-////                new Connector.ConnectionListener() {
-////
-////                    @Override
-////                    public void onConnected(SpotifyAppRemote spotifyAppRemote) {
-////                        mSpotifyAppRemote = spotifyAppRemote;
-////                        Log.d("MainActivity", "Connected! Yay!");
-////
-////                        // Connection successful. Interact with App remote.
-////                        connected();
-////                    }
-////
-////                    @Override
-////                    public void onFailure(Throwable throwable) {
-////                        Log.e("MainActivity", throwable.getMessage(), throwable);
-////
-////                        // Something went wrong when attempting to connect! Handle errors here
-////                    }
-////                });
     }
 
     @Override
@@ -97,22 +71,16 @@ public class MainActivity extends AppCompatActivity {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
 
             switch (response.getType()) {
-                // Response was successful and contains auth token
                 case TOKEN:
-                    // Handle successful response
                     mAccessToken = response.getAccessToken();
                     connected();
                     break;
-
-                // Auth flow returned an error
                 case ERROR:
-                    // Handle error response
+                    //TODO: Handle Error
                     response.getError();
                     break;
-
-                // Most likely auth flow was cancelled
                 default:
-                    // Handle other cases
+                    //TODO: Handle other cases
             }
         }
     }
@@ -120,48 +88,14 @@ public class MainActivity extends AppCompatActivity {
     private void connected() {
         Log.d("main", "connected");
 
-//        mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
-//        mSpotifyAppRemote.getPlayerApi()
-//                .subscribeToPlayerState()
-//                .setEventCallback(new Subscription.EventCallback<PlayerState>() {
-//                    @Override
-//                    public void onEvent(PlayerState playerState) {
-//                        final Track track = playerState.track;
-//                        if (track != null) {
-//                            Log.d("MainActivity", track.name + " by " + track.artist.name);
-//                        }
-//                    }
-//                });
     }
 
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
-//    }
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Uri uri = intent.getData();
-        if (uri != null) {
-            AuthenticationResponse response = AuthenticationResponse.fromUri(uri);
-            switch (response.getType()) {
-                // Response was successful and contains auth token
-                case TOKEN:
-                    // Handle successful response
-                    String token = response.getAccessToken();
-                    connected();
-                    break;
-
-                // Auth flow returned an error
-                case ERROR:
-                    // Handle error response
-                    break;
-
-                // Most likely auth flow was cancelled
-                default:
-                    // Handle other cases
-            }
-        }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //TODO: handle onStop
+        //Should we log out/clear tokens?
+        //AuthenticationClient#clearCookies
     }
     public void onGetUserProfileClicked(View view) {
         if (mAccessToken == null) {
@@ -196,12 +130,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setResponse(final String text) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                final TextView responseView = (TextView) findViewById(R.id.textView);
-                responseView.setText(text);
-            }
+        runOnUiThread(() -> {
+            final TextView responseView = findViewById(R.id.textView);
+            responseView.setText(text);
         });
     }
 
