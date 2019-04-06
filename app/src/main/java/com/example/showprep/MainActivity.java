@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.showprep.setlist.Artist;
+import com.example.showprep.setlist.SetlistAPI;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
@@ -26,17 +28,19 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String CLIENT_ID = "07450964b36e46d6ab07178b94916e4a";
     private static final String REDIRECT_URI = "showprep://callback";
-    private static final String SETLISTFM_API_KEY = "5e4c6fa8-f538-4d27-bd34-92a87136aace";
     private SpotifyAppRemote mSpotifyAppRemote;
     private static final int REQUEST_CODE = 1337;
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
@@ -91,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
         //Should we log out/clear tokens?
         //AuthenticationClient#clearCookies
     }
+
     public void onGetUserProfileClicked(View view) {
+        /*
         spotifyAuthentication();
         if (mAccessToken == null) {
             Log.d("Main", "NULL ACCESS");
@@ -122,39 +128,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        */
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
     }
 
     public void onGetSetList(View view) {
-        if (SETLISTFM_API_KEY == null) {
-            Log.d("Main", "NULL api key");
-            return;
-        }
-
-        final Request request = new Request.Builder()
-                .url("https://api.setlist.fm/rest/1.0/search/artists?artistName=the%20wonder%20years&p=1&sort=sortName")
-                .addHeader("x-api-key", SETLISTFM_API_KEY)
-                .addHeader("Accept","application/json")
-                .build();
-
-        cancelCall();
-        mCall = mOkHttpClient.newCall(request);
-
-        mCall.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                setResponse("Failed to fetch data: " + e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    final JSONObject jsonObject = new JSONObject(response.body().string());
-                    setResponse(jsonObject.toString(3));
-                } catch (JSONException e) {
-                    setResponse("Failed to parse data: " + e);
-                }
-            }
-        });
     }
     private void setResponse(final String text) {
         runOnUiThread(() -> {
@@ -163,11 +142,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void cancelCall() {
-        if (mCall != null) {
-            mCall.cancel();
-        }
-    }
 
     private void spotifyAuthentication() {
         AuthenticationRequest.Builder builder =
