@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "RecyclerView";
-    private ArrayList<String> mArtistNames = new ArrayList<>();
+    private ArrayList<String> mArtistNames;
     private Context mContext;
 
     public RecyclerViewAdapter(ArrayList<String> mArtistNames, Context mContext) {
@@ -27,7 +27,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.artist_search_view, viewGroup, false);
         ViewHolder holder = new ViewHolder(view);
-        return null;
+        return holder;
     }
 
     @Override
@@ -53,6 +53,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
             artistName = itemView.findViewById(R.id.artist_name);
             parentLayout = itemView.findViewById(R.id.parent_layout);
+        }
+    }
+    public void clear() {
+        final int size = mArtistNames.size();
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                mArtistNames.remove(0);
+            }
+            notifyItemRangeRemoved(0, size);
         }
     }
 }

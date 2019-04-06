@@ -6,11 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-import android.widget.SearchView;
 
 import com.example.showprep.setlist.Artist;
 import com.example.showprep.setlist.SearchArtist;
@@ -56,12 +56,13 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 searchArtist(s);
-                return false;
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                return false;
+                searchArtist(s);
+                return true;
             }
         });
 
@@ -69,18 +70,17 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void searchArtist(String searchTerm) {
-        //TODO: For debugging ------>
-        OkHttpClient.Builder okBuilder = new OkHttpClient.Builder();
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        okBuilder.addInterceptor(logging);
-
-        // <--------------------------
+//        //TODO: For debugging ------>
+//        OkHttpClient.Builder okBuilder = new OkHttpClient.Builder();
+//        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+//        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        okBuilder.addInterceptor(logging);
+//
+//        // <--------------------------
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(SetlistAPI.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okBuilder.build());
+                .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
 
@@ -89,12 +89,13 @@ public class SearchActivity extends AppCompatActivity {
         call.enqueue(new Callback<SearchArtist>() {
             @Override
             public void onResponse(Call<SearchArtist> call, Response<SearchArtist> response) {
-                SearchArtist searchResults = response.body();
-                artistNames = new ArrayList<>();
-                for (Artist artist : searchResults.getArtists()) {
-                    Log.d("Artist", artist.getName());
-                    artistNames.add(artist.getName());
-                    adapter.notifyItemInserted(artistNames.size() - 1);
+
+                if (response.code() == 200) {
+                    SearchArtist searchResults = response.body();
+                    refreshResults(searchResults);
+                }
+                else {
+                    //TODO handle error codes.
                 }
             }
 
@@ -111,5 +112,14 @@ public class SearchActivity extends AppCompatActivity {
         adapter = new RecyclerViewAdapter(artistNames,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void refreshResults(SearchArtist searchResults) {
+        int top = searchResults.getArtists().size() < 10 ? searchResults.getArtists().size() : 9;
+        adapter.clear();
+        for (int i = 0; i < top; i++) {
+            artistNames.add(searchResults.getArtists().get(i).getName());
+            adapter.notifyItemInserted(artistNames.size() - 1);
+        }
     }
 }
