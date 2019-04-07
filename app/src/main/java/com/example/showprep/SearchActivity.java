@@ -27,7 +27,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchActivity extends AppCompatActivity {
-    private ArrayList<String> artistNames;
+    private ArrayList<Artist> artists;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
     private static final String TAG = "SearchActivity";
@@ -35,7 +35,7 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        artistNames = new ArrayList<>();
+        artists = new ArrayList<>();
         initRecyclerView();
     }
 
@@ -109,7 +109,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         recyclerView = findViewById(R.id.recyclerView);
-        adapter = new RecyclerViewAdapter(artistNames,this);
+        adapter = new RecyclerViewAdapter(artists,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -118,8 +118,8 @@ public class SearchActivity extends AppCompatActivity {
         int top = searchResults.getArtists().size() < 10 ? searchResults.getArtists().size() : 9;
         adapter.clear();
         for (int i = 0; i < top; i++) {
-            artistNames.add(searchResults.getArtists().get(i).getName());
-            adapter.notifyItemInserted(artistNames.size() - 1);
+            artists.add(searchResults.getArtists().get(i));
+            adapter.notifyItemInserted(artists.size() - 1);
         }
     }
 }
