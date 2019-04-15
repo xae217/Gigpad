@@ -1,7 +1,10 @@
 package com.example.showprep.setlist;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class SetList {
+public class SetList implements Parcelable {
     private Artist artist;
     private Venue venue;
     private Tour tour;
@@ -64,5 +67,15 @@ public class SetList {
 
     public String getLastUpdated() {
         return lastUpdated;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString();
     }
 }

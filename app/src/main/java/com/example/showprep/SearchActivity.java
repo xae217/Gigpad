@@ -18,8 +18,6 @@ import com.example.showprep.setlist.SetlistAPI;
 
 import java.util.ArrayList;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SearchActivity extends AppCompatActivity {
     private ArrayList<Artist> artists;
     private RecyclerView recyclerView;
-    private RecyclerViewAdapter adapter;
+    private ArtistAdapter adapter;
     private static final String TAG = "SearchActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +107,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         recyclerView = findViewById(R.id.recyclerView);
-        adapter = new RecyclerViewAdapter(artists,this);
+        adapter = new ArtistAdapter(artists,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

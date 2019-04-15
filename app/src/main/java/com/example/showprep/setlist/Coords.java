@@ -1,7 +1,7 @@
 package com.example.showprep.setlist;
 import com.google.gson.annotations.SerializedName;
 
-class Coords {
+public class Coords {
     @SerializedName("long")
     private String longitude;
     private String lat;

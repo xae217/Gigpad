@@ -6,17 +6,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.TextView;
 
-import com.example.showprep.setlist.SearchSetlist;
 import com.example.showprep.setlist.SearchSetlist;
 import com.example.showprep.setlist.SetList;
 import com.example.showprep.setlist.SetlistAPI;
-import com.example.showprep.setlist.ShowsAdapter;
 
 import java.util.ArrayList;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,13 +31,12 @@ public class ShowsActivity extends AppCompatActivity {
         showDates = new ArrayList<>();
         setContentView(R.layout.activity_shows);
         Intent intent = getIntent();
-        String mbid = intent.getStringExtra(RecyclerViewAdapter.ARTIST_MBID);
+        String mbid = intent.getStringExtra(ArtistAdapter.ARTIST_MBID);
         initRecyclerView();
         searchSetlists(mbid);
     }
 
     private void initRecyclerView() {
-        Log.d("SHOW", "IN INIT");
         recyclerView = findViewById(R.id.show_recyclerView);
         adapter = new ShowsAdapter(showDates,this);
         recyclerView.setAdapter(adapter);
@@ -62,6 +58,9 @@ public class ShowsActivity extends AppCompatActivity {
             public void onResponse(Call<SearchSetlist> call, Response<SearchSetlist> response) {
                 if (response.code() == 200) {
                     SearchSetlist searchResults = response.body();
+                    TextView artistTitle = findViewById(R.id.artist_title);
+                    artistTitle.setText(searchResults.getsetlists().get(0).getArtist().getName());
+                    adapter.clear();
                     for (SetList s : searchResults.getsetlists()) {
                         showDates.add(s);
                         adapter.notifyItemInserted(showDates.size() - 1);

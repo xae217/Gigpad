@@ -1,6 +1,6 @@
 package com.example.showprep.setlist;
 
-class Venue {
+public class Venue {
     private City city;
     private String url;
     private String id;

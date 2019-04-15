@@ -2,13 +2,13 @@ package com.example.showprep.setlist;
 
 public class Song {
     private String name;
-    private String with;
-    private String cover;
+    private Artist with;
+    private Artist cover;
     private String info;
     private String tape;
 
 
-    public Song(String name, String with, String cover, String info, String tape) {
+    public Song(String name, Artist with, Artist cover, String info, String tape) {
         this.name = name;
         this.with = with;
         this.cover = cover;
@@ -20,11 +20,11 @@ public class Song {
         return name;
     }
 
-    public String getWith() {
+    public Artist getWith() {
         return with;
     }
 
-    public String getCover() {
+    public Artist getCover() {
         return cover;
     }
 

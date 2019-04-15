@@ -1,6 +1,6 @@
 package com.example.showprep.setlist;
 
-class Country {
+public class Country {
     private String code;
     private String name;
 

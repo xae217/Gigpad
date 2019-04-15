@@ -1,6 +1,6 @@
 package com.example.showprep.setlist;
 
-class Tour {
+public class Tour {
     private String name;
 
     public Tour(String name) {

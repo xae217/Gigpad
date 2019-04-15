@@ -15,13 +15,13 @@ import com.example.showprep.setlist.Artist;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
     public static final String ARTIST_MBID = "ARTIST_MBID";
     private static final String TAG = "RecyclerView";
     private ArrayList<Artist> mArtists;
     private Context mContext;
 
-    public RecyclerViewAdapter(ArrayList<Artist> mArtists, Context mContext) {
+    public ArtistAdapter(ArrayList<Artist> mArtists, Context mContext) {
         this.mArtists = mArtists;
         this.mContext = mContext;
     }
@@ -36,7 +36,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Log.d(TAG,"onBind");
         viewHolder.artistName.setText(mArtists.get(i).getName());
         viewHolder.parentLayout.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, ShowsActivity.class);
