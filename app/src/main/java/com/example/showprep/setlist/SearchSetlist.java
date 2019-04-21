@@ -2,19 +2,19 @@ package com.example.showprep.setlist;
 
 import java.util.List;
 
-public class SearchArtist {
+public class SearchSetlist {
     private String type;
     private String itemsPerPage;
     private String page;
     private String total;
-    private List<Artist> artist;
+    private List<SetList> setlist;
 
-    public SearchArtist(String type, String itemsPerPage, String page, String total, List<Artist> artist) {
+    public SearchSetlist(String type, String itemsPerPage, String page, String total, List<SetList> setlist) {
         this.type = type;
         this.itemsPerPage = itemsPerPage;
         this.page = page;
         this.total = total;
-        this.artist = artist;
+        this.setlist = setlist;
     }
 
     public String getType() {
@@ -33,7 +33,7 @@ public class SearchArtist {
         return total;
     }
 
-    public List<Artist> getArtists() {
-        return artist;
+    public List<SetList> getsetlists() {
+        return setlist;
     }
 }

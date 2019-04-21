@@ -1,11 +1,15 @@
 package com.example.showprep.setlist;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class SetList {
+public class SetList implements Parcelable {
     private Artist artist;
     private Venue venue;
     private Tour tour;
-    private List<Set> set;
+    private Sets sets;
     private String info;
     private String url;
     private String id;
@@ -13,9 +17,9 @@ public class SetList {
     private String eventDate;
     private String lastUpdated;
 
-    public SetList(Artist artist, List<Set> set, Venue venue, Tour tour, String info, String url, String id, String versionId, String eventDate, String lastUpdated) {
+    public SetList(Artist artist, Sets sets, Venue venue, Tour tour, String info, String url, String id, String versionId, String eventDate, String lastUpdated) {
         this.artist = artist;
-        this.set = set;
+        this.sets = sets;
         this.venue = venue;
         this.tour = tour;
         this.info = info;
@@ -30,8 +34,8 @@ public class SetList {
         return artist;
     }
 
-    public List<Set> getSets() {
-        return set;
+    public Sets getSets() {
+        return sets;
     }
 
     public Venue getVenue() {
@@ -65,4 +69,50 @@ public class SetList {
     public String getLastUpdated() {
         return lastUpdated;
     }
+
+
+    protected SetList(Parcel in) {
+        artist = (Artist) in.readValue(Artist.class.getClassLoader());
+        venue = (Venue) in.readValue(Venue.class.getClassLoader());
+        tour = (Tour) in.readValue(Tour.class.getClassLoader());
+        sets = (Sets) in.readValue(Sets.class.getClassLoader());
+        info = in.readString();
+        url = in.readString();
+        id = in.readString();
+        versionId = in.readString();
+        eventDate = in.readString();
+        lastUpdated = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(artist);
+        dest.writeValue(venue);
+        dest.writeValue(tour);
+        dest.writeValue(sets);
+        dest.writeString(info);
+        dest.writeString(url);
+        dest.writeString(id);
+        dest.writeString(versionId);
+        dest.writeString(eventDate);
+        dest.writeString(lastUpdated);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<SetList> CREATOR = new Parcelable.Creator<SetList>() {
+        @Override
+        public SetList createFromParcel(Parcel in) {
+            return new SetList(in);
+        }
+
+        @Override
+        public SetList[] newArray(int size) {
+            return new SetList[size];
+        }
+    };
 }

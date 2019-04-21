@@ -1,6 +1,9 @@
 package com.example.showprep.setlist;
 
-class Tour {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Tour implements Parcelable {
     private String name;
 
     public Tour(String name) {
@@ -8,6 +11,33 @@ class Tour {
     }
 
     public String getName() {
-       return this.name;
+        return this.name;
     }
+
+    protected Tour(Parcel in) {
+        name = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Tour> CREATOR = new Parcelable.Creator<Tour>() {
+        @Override
+        public Tour createFromParcel(Parcel in) {
+            return new Tour(in);
+        }
+
+        @Override
+        public Tour[] newArray(int size) {
+            return new Tour[size];
+        }
+    };
 }
