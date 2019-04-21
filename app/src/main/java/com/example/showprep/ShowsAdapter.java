@@ -11,8 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.showprep.setlist.SetList;
-import com.google.gson.Gson;
-
 
 import java.util.ArrayList;
 
@@ -40,12 +38,11 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder>{
         String venue = mShows.get(i).getVenue().getName();
         String city = mShows.get(i).getVenue().getCity().getName();
         String state = mShows.get(i).getVenue().getCity().getStateCode();
-        String showTitle = date + " - " + venue + ", " + city+ ", " + state ;
-        Gson gson = new Gson();
+        String showTitle = date + " - " + venue + ", " + city + ", " + state ;
         viewHolder.showDate.setText(showTitle);
         viewHolder.parentLayout.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, SetlistActivity.class);
-            intent.putExtra("SETLIST", gson.toJson(mShows.get(i)));
+            intent.putExtra("SETLIST", mShows.get(i));
             mContext.startActivity(intent);
         });
     }

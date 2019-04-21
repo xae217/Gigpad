@@ -1,8 +1,8 @@
 package com.example.showprep;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -44,7 +44,6 @@ public class ShowsActivity extends AppCompatActivity {
     }
 
     private void searchSetlists(String mbid) {
-
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(SetlistAPI.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create());

@@ -1,6 +1,9 @@
 package com.example.showprep.setlist;
 
-public class Song {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Song implements Parcelable {
     private String name;
     private Artist with;
     private Artist cover;
@@ -35,4 +38,39 @@ public class Song {
     public String getTape() {
         return tape;
     }
+
+    protected Song(Parcel in) {
+        name = in.readString();
+        with = (Artist) in.readValue(Artist.class.getClassLoader());
+        cover = (Artist) in.readValue(Artist.class.getClassLoader());
+        info = in.readString();
+        tape = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeValue(with);
+        dest.writeValue(cover);
+        dest.writeString(info);
+        dest.writeString(tape);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Song> CREATOR = new Parcelable.Creator<Song>() {
+        @Override
+        public Song createFromParcel(Parcel in) {
+            return new Song(in);
+        }
+
+        @Override
+        public Song[] newArray(int size) {
+            return new Song[size];
+        }
+    };
 }

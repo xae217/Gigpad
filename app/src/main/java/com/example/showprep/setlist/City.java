@@ -1,6 +1,9 @@
 package com.example.showprep.setlist;
 
-public class City {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class City implements Parcelable {
     private String id;
     private String name;
     private String stateCode;
@@ -30,4 +33,41 @@ public class City {
     public String getState() {
         return state;
     }
+
+    protected City(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        stateCode = in.readString();
+        state = in.readString();
+        coords = (Coords) in.readValue(Coords.class.getClassLoader());
+        country = (Country) in.readValue(Country.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(stateCode);
+        dest.writeString(state);
+        dest.writeValue(coords);
+        dest.writeValue(country);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<City> CREATOR = new Parcelable.Creator<City>() {
+        @Override
+        public City createFromParcel(Parcel in) {
+            return new City(in);
+        }
+
+        @Override
+        public City[] newArray(int size) {
+            return new City[size];
+        }
+    };
 }

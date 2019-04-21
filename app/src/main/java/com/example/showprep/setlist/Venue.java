@@ -1,6 +1,9 @@
 package com.example.showprep.setlist;
 
-public class Venue {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Venue implements Parcelable {
     private City city;
     private String url;
     private String id;
@@ -28,4 +31,37 @@ public class Venue {
     public String getName() {
         return name;
     }
+
+    protected Venue(Parcel in) {
+        city = (City) in.readValue(City.class.getClassLoader());
+        url = in.readString();
+        id = in.readString();
+        name = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(city);
+        dest.writeString(url);
+        dest.writeString(id);
+        dest.writeString(name);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Venue> CREATOR = new Parcelable.Creator<Venue>() {
+        @Override
+        public Venue createFromParcel(Parcel in) {
+            return new Venue(in);
+        }
+
+        @Override
+        public Venue[] newArray(int size) {
+            return new Venue[size];
+        }
+    };
 }
