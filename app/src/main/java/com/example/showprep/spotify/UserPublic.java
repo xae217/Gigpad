@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 public class UserPublic implements Parcelable {
-    public String display_name;
-    public Map<String, String> external_urls;
-    public Followers followers;
-    public String href;
-    public String id;
-    public List<Image> images;
-    public String type;
-    public String uri;
+    private String display_name;
+    private Map<String, String> external_urls;
+    private Followers followers;
+    private String href;
+    private String id;
+    private List<Image> images;
+    private String type;
+    private String uri;
 
     public UserPublic() {
     }

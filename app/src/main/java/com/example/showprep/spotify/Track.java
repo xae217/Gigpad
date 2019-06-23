@@ -8,9 +8,9 @@ import java.util.Map;
  * <a href="https://developer.spotify.com/web-api/object-model/#track-object-full">Track object model</a>
  */
 public class Track extends TrackSimple {
-    public AlbumSimple album;
-    public Map<String, String> external_ids;
-    public Integer popularity;
+    private AlbumSimple album;
+    private Map<String, String> external_ids;
+    private Integer popularity;
 
     @Override
     public int describeContents() {

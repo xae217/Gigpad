@@ -4,10 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class PlaylistTrack implements Parcelable {
-    public String added_at;
-    public UserPublic added_by;
-    public Track track;
-    public Boolean is_local;
+    private String added_at;
+    private UserPublic added_by;
+    private Track track;
+    private Boolean is_local;
 
     @Override
     public int describeContents() {

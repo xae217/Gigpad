@@ -6,7 +6,7 @@ import android.os.Parcel;
  * <a href="https://developer.spotify.com/web-api/object-model/#playlist-object-simplified">Playlist object model (simplified)</a>
  */
 public class PlaylistSimple extends PlaylistBase {
-    public PlaylistTracksInformation tracks;
+    private PlaylistTracksInformation tracks;
 
     @Override
     public int describeContents() {
@@ -36,4 +36,8 @@ public class PlaylistSimple extends PlaylistBase {
             return new PlaylistSimple[size];
         }
     };
+
+    public PlaylistTracksInformation getTracks() {
+        return tracks;
+    }
 }

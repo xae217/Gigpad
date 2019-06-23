@@ -6,11 +6,11 @@ import android.os.Parcelable;
 import java.util.Map;
 
 public class LinkedTrack implements Parcelable {
-    public Map<String, String> external_urls;
-    public String href;
-    public String id;
-    public String type;
-    public String uri;
+    private Map<String, String> external_urls;
+    private String href;
+    private String id;
+    private String type;
+    private String uri;
 
 
     @Override
@@ -47,4 +47,24 @@ public class LinkedTrack implements Parcelable {
             return new LinkedTrack[size];
         }
     };
+
+    public Map<String, String> getExternal_urls() {
+        return external_urls;
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getUri() {
+        return uri;
+    }
 }

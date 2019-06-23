@@ -7,21 +7,21 @@ import java.util.List;
 import java.util.Map;
 
 public class TrackSimple implements Parcelable {
-    public List<ArtistSimple> artists;
-    public List<String> available_markets;
-    public Boolean is_playable;
-    public LinkedTrack linked_from;
-    public int disc_number;
-    public long duration_ms;
-    public Boolean explicit;
-    public Map<String, String> external_urls;
-    public String href;
-    public String id;
-    public String name;
-    public String preview_url;
-    public int track_number;
-    public String type;
-    public String uri;
+    private List<ArtistSimple> artists;
+    private List<String> available_markets;
+    private Boolean is_playable;
+    private LinkedTrack linked_from;
+    private int disc_number;
+    private long duration_ms;
+    private Boolean explicit;
+    private Map<String, String> external_urls;
+    private String href;
+    private String id;
+    private String name;
+    private String preview_url;
+    private int track_number;
+    private String type;
+    private String uri;
 
 
     @Override

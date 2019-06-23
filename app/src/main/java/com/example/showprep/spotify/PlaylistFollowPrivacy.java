@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class PlaylistFollowPrivacy implements Parcelable {
     @SerializedName("public")
-    public Boolean is_public;
+    private Boolean is_public;
 
     @Override
     public int describeContents() {
@@ -35,4 +35,8 @@ public class PlaylistFollowPrivacy implements Parcelable {
             return new PlaylistFollowPrivacy[size];
         }
     };
+
+    public Boolean getIs_public() {
+        return is_public;
+    }
 }

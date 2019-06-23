@@ -9,18 +9,18 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class PlaylistBase implements Parcelable {
-    public Boolean collaborative;
-    public Map<String, String> external_urls;
-    public String href;
-    public String id;
-    public List<Image> images;
-    public String name;
-    public UserPublic owner;
-    @SerializedName("public")
-    public Boolean is_public;
-    public String snapshot_id;
-    public String type;
-    public String uri;
+    private Boolean collaborative;
+    private Map<String, String> external_urls;
+    private String href;
+    private String id;
+    private List<Image> images;
+    private String name;
+    private UserPublic owner;
+    @SerializedName("private")
+    private Boolean is_public;
+    private String snapshot_id;
+    private String type;
+    private String uri;
 
     protected PlaylistBase() {
     }

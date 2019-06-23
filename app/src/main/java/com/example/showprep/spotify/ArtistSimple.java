@@ -51,4 +51,28 @@ public class ArtistSimple implements Parcelable {
             return new ArtistSimple[size];
         }
     };
+
+    public Map<String, String> getExternal_urls() {
+        return external_urls;
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getUri() {
+        return uri;
+    }
 }

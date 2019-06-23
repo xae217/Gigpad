@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class PlaylistsPager implements Parcelable {
-    public Pager<PlaylistSimple> playlists;
+    private Pager<PlaylistSimple> playlists;
 
     @Override
     public int describeContents() {

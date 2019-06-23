@@ -60,4 +60,40 @@ public class AlbumSimple implements Parcelable {
             return new AlbumSimple[size];
         }
     };
+
+    public String getAlbum_type() {
+        return album_type;
+    }
+
+    public List<String> getAvailable_markets() {
+        return available_markets;
+    }
+
+    public Map<String, String> getExternal_urls() {
+        return external_urls;
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getUri() {
+        return uri;
+    }
 }

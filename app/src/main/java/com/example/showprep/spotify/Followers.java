@@ -7,8 +7,8 @@ import android.os.Parcelable;
  * <a href="https://developer.spotify.com/web-api/object-model/#followers-object">Followers</a>
  */
 public class Followers implements Parcelable {
-    public String href;
-    public Integer total;
+    private String href;
+    private Integer total;
 
     @Override
     public int describeContents() {
@@ -38,4 +38,12 @@ public class Followers implements Parcelable {
             return new Followers[size];
         }
     };
+
+    public String getHref() {
+        return href;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
 }

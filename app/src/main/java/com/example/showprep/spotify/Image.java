@@ -7,9 +7,9 @@ import android.os.Parcelable;
  * <a href="https://developer.spotify.com/web-api/object-model/#image-object">Image object model</a>
  */
 public class Image implements Parcelable {
-    public Integer width;
-    public Integer height;
-    public String url;
+    private Integer width;
+    private Integer height;
+    private String url;
 
 
     @Override
@@ -42,4 +42,16 @@ public class Image implements Parcelable {
             return new Image[size];
         }
     };
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public String getUrl() {
+        return url;
+    }
 }

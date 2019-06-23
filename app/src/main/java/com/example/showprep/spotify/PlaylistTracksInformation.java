@@ -4,8 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class PlaylistTracksInformation implements Parcelable {
-    public String href;
-    public int total;
+    private String href;
+    private int total;
 
     @Override
     public int describeContents() {
@@ -35,4 +35,12 @@ public class PlaylistTracksInformation implements Parcelable {
             return new PlaylistTracksInformation[size];
         }
     };
+
+    public String getHref() {
+        return href;
+    }
+
+    public int getTotal() {
+        return total;
+    }
 }
