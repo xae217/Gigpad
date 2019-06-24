@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.showprep.spotify.SpotifyAPI;
-import com.example.showprep.spotify.SpotifyAccess;
+import com.example.showprep.spotify.SpotifySession;
 import com.example.showprep.spotify.User;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
@@ -55,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
             switch (response.getType()) {
                 case TOKEN:
                     mAccessToken = response.getAccessToken();
-                    SpotifyAccess.getInstance().setToken(mAccessToken);
+                    SpotifySession.getInstance().setToken(mAccessToken);
+                    getUserId(); //The request happens asynchronously
                     break;
                 case ERROR:
                     Log.d("Debug", "Error");
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void connected() {
+    private void getUserId() {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(SpotifyAPI.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create());
@@ -76,12 +77,12 @@ public class MainActivity extends AppCompatActivity {
         Retrofit retrofit = builder.build();
 
         SpotifyAPI spotifyAPI = retrofit.create(SpotifyAPI.class);
-        Call<User> call = spotifyAPI.getUser(SpotifyAccess.getInstance().getToken());
+        Call<User> call = spotifyAPI.getUser(SpotifySession.getInstance().getToken());
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 User user = response.body();
-                Log.d("MAIN--", user.getId());
+                SpotifySession.getInstance().setUserID(user.getId());
             }
 
             @Override
@@ -100,9 +101,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetUserProfileClicked(View view) {
-
-//        this.connected(); //TODO We need to use similar logic here to get User ID when we need it
-
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
     }

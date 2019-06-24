@@ -3,9 +3,6 @@ package com.example.showprep.spotify;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * <a href="https://developer.spotify.com/web-api/object-model/#image-object">Image object model</a>
- */
 public class Image implements Parcelable {
     private Integer width;
     private Integer height;

@@ -1,56 +1,56 @@
 package com.example.showprep.spotify;
 
-public class Playlist {
-    private Boolean collaborative;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+
+public class Playlist extends PlaylistBase {
     private String description;
-    private String href;
-    private String id;
-    private String name;
-    private String snapshot_id;
-    private String type;
-    private String uri;
-    /*TODO: Check if we need Paging and Track objects */
+    private Followers followers;
+    private Pager<PlaylistTrack> tracks;
 
-    public Playlist(Boolean collaborative, String description, String href, String id, String name, String snapshot_id, String type, String uri) {
-        this.collaborative = collaborative;
-        this.description = description;
-        this.href = href;
-        this.id = id;
-        this.name = name;
-        this.snapshot_id = snapshot_id;
-        this.type = type;
-        this.uri = uri;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public Boolean getCollaborative() {
-        return collaborative;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.description);
+        dest.writeParcelable(this.followers, 0);
+        dest.writeParcelable(this.tracks, 0);
     }
+
+    public Playlist() {
+    }
+
+    protected Playlist(Parcel in) {
+        super(in);
+        this.description = in.readString();
+        this.followers = in.readParcelable(Followers.class.getClassLoader());
+        this.tracks = in.readParcelable(Pager.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Playlist> CREATOR = new Parcelable.Creator<Playlist>() {
+        public Playlist createFromParcel(Parcel source) {
+            return new Playlist(source);
+        }
+
+        public Playlist[] newArray(int size) {
+            return new Playlist[size];
+        }
+    };
 
     public String getDescription() {
         return description;
     }
 
-    public String getHref() {
-        return href;
+    public Followers getFollowers() {
+        return followers;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSnapshot_id() {
-        return snapshot_id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getUri() {
-        return uri;
+    public Pager<PlaylistTrack> getTracks() {
+        return tracks;
     }
 }
