@@ -13,11 +13,6 @@ import retrofit2.http.Query;
 public interface SpotifyAPI {
     String BASE_URL = "https://api.spotify.com/v1/";
 
-    @POST("users/{userid}/playlists")
-    Call<Playlist> createPlaylist(@Path("userid") String userid,
-                                  @Header("Authorization") String auth,
-                                  @Header("Content-Type") String type,
-                                  @Body HashMap<String,String> body);
 
     @GET("me")
     Call<User> getUser(@Header("Authorization") String auth);
@@ -27,5 +22,14 @@ public interface SpotifyAPI {
                                     @Query("q") String q,
                                     @Query("type") String type);
 
+    @POST("users/{userid}/playlists")
+    Call<Playlist> createPlaylist(@Path("userid") String userid,
+                                  @Header("Authorization") String auth,
+                                  @Header("Content-Type") String type,
+                                  @Body HashMap<String,String> body);
 
+    @POST("playlists/{playlist_id}/tracks")
+    Call<SnapshotId> addToPlaylist(@Path("playlist_id") String playlistId,
+                                   @Header("Authorization") String auth,
+                                   @Query("uris") String queryParameters);
 }

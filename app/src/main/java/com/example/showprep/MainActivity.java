@@ -83,11 +83,12 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 User user = response.body();
                 SpotifySession.getInstance().setUserID(user.getId());
+                Log.d("Main", SpotifySession.getInstance().getUserID());
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-
+                Log.d("mAIN", "Failed to fetch userid");
             }
         });
     }
