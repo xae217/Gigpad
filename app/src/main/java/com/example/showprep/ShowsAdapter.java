@@ -15,7 +15,6 @@ import com.example.showprep.setlist.SetList;
 import java.util.ArrayList;
 
 public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder>{
-    private static final String TAG = "ShowAdapter";
     private ArrayList<SetList> mShows;
     private Context mContext;
 
@@ -28,8 +27,7 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder>{
     @Override
     public ShowsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.show_search_view, viewGroup, false);
-        ShowsAdapter.ViewHolder holder = new ShowsAdapter.ViewHolder(view);
-        return holder;
+        return new ViewHolder(view);
     }
 
     @Override

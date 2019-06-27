@@ -69,7 +69,7 @@ public class SearchActivity extends AppCompatActivity {
 //        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
 //        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 //        okBuilder.addInterceptor(logging);
-//
+// Need to attach client(okBuilder.build()) to the retrofit builder below.
 //        // <--------------------------
 
         Retrofit.Builder builder = new Retrofit.Builder()
