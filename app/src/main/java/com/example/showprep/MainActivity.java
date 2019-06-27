@@ -9,12 +9,10 @@ import android.view.View;
 import com.example.showprep.spotify.SpotifyAPI;
 import com.example.showprep.spotify.SpotifySession;
 import com.example.showprep.spotify.User;
-import com.spotify.android.appremote.api.SpotifyAppRemote;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,12 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String CLIENT_ID = "07450964b36e46d6ab07178b94916e4a";
     private static final String REDIRECT_URI = "showprep://callback";
-    private SpotifyAppRemote mSpotifyAppRemote;
     private static final int REQUEST_CODE = 1337;
-    private final OkHttpClient mOkHttpClient = new OkHttpClient();
     private String mAccessToken;
-    private String mAccessCode;
-    private Call mCall;
 
 
     @Override
@@ -88,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.d("mAIN", "Failed to fetch userid");
+                Log.d("mAIN", "Failed to fetch userid"); //TODO
             }
         });
     }
