@@ -3,7 +3,7 @@ package com.example.showprep.spotify;
 public class SpotifySession {
     private static final SpotifySession access = new SpotifySession();
     private String token;
-    private String userID; //TODO maybe should look into caching the userID.
+    private String userID;
 
     public static SpotifySession getInstance() {
         return access;

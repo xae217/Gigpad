@@ -13,4 +13,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="spotifyClientId">07450964b36e46d6ab07178b94916e4a</string>
+    <string name="networkFailure">Network failure.</string>
+    <string name="failedSetlistSearch">Could not find setlists.</string>
+    <string name="createdPlaylist">Playlist created successfully.</string>
+    <string name="pleaseWait">Please wait</string>
+    <string name="authFailed">Spotify authentication failed.</string>
 </resources>
