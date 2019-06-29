@@ -22,8 +22,6 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     private static final String REDIRECT_URI = "showprep://callback";
     private static final int REQUEST_CODE = 1337;
-    private String mAccessToken;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +43,7 @@ public class MainActivity extends AppCompatActivity {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             switch (response.getType()) {
                 case TOKEN:
-                    mAccessToken = response.getAccessToken();
-                    SpotifySession.getInstance().setToken(mAccessToken);
+                    SpotifySession.getInstance().setToken(response.getAccessToken());
                     getUserId();
                     break;
                 case ERROR:
@@ -90,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSearchSetlist(View view) {
-        Intent intent = new Intent(this, SearchActivity.class);
+        Intent intent = new Intent(MainActivity.this, SearchActivity.class);
         startActivity(intent);
     }
 }
