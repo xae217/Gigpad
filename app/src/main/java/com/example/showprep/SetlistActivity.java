@@ -25,8 +25,6 @@ import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SetlistActivity extends AppCompatActivity {
     private static final String TAG = "SetlistActivity";
@@ -70,34 +68,25 @@ public class SetlistActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            this.dialog.setMessage("Please wait");
+            this.dialog.setMessage(getString(R.string.pleaseWait));
             this.dialog.show();
         }
 
         @Override
         protected String doInBackground(String ... strings) {
             StringBuilder uris = new StringBuilder();
-            Retrofit.Builder builder = new Retrofit.Builder()
-                    .baseUrl(SpotifyAPI.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create());
-            Retrofit retrofit = builder.build();
 
-            SpotifyAPI spotifyAPI = retrofit.create(SpotifyAPI.class);
-
-            HashMap<String,String> playlistBody = new HashMap<>(); // Used for Post request body
-            playlistBody.put("name", setList.getArtist().getName() + " - " + setList.getEventDate());
-            playlistBody.put("description", setList.getArtist().getName() + " @ " +
-                    setList.getVenue().getName() + " " + setList.getVenue().getCity().getName() +
-                    " " + setList.getVenue().getCity().getStateCode() + " - " + setList.getEventDate());
-
-            Call<Playlist> call = spotifyAPI.createPlaylist(SpotifySession.getInstance().getUserID(),
-                    SpotifySession.getInstance().getToken(),"application/json",playlistBody);
+            Call<Playlist> call = SpotifyAPI.getService().createPlaylist(SpotifySession.getInstance().getUserID(),
+                    SpotifySession.getInstance().getToken(),"application/json", createPlaylistRequestBody());
             try {
                 Response<Playlist> response = call.execute();
                 if (response.code() == 201) {
                     Playlist spotifyPlaylist = response.body();
+                    if (spotifyPlaylist == null) {
+
+                    }
                     for(Song s : songs) {
-                        Call<TracksPager> callTracks = spotifyAPI.spotifySearch(SpotifySession.getInstance().getToken(),
+                        Call<TracksPager> callTracks = SpotifyAPI.getService().spotifySearch(SpotifySession.getInstance().getToken(),
                                 parseQuery(setList.getArtist().getName(), s.getName()), "track");
                         Response<TracksPager> responseTracks = callTracks.execute();
                         if(responseTracks.code() == 200) {
@@ -110,16 +99,16 @@ public class SetlistActivity extends AppCompatActivity {
                                 Log.d(TAG,  "NULL - Track not found");
                         }
                     }
-                    Call<SnapshotId> callAddTrack = spotifyAPI.addToPlaylist(spotifyPlaylist.getId(),
+                    Call<SnapshotId> callAddTrack = SpotifyAPI.getService().addToPlaylist(spotifyPlaylist.getId(),
                             SpotifySession.getInstance().getToken(),
                             uris.toString());
                     Response responseAddTrack = callAddTrack.execute();
                     if (responseAddTrack.code() == 201) {
-                        return "Playlist created successfully.";
+                        return getString(R.string.createdPlaylist);
                     }
                 }
             } catch (IOException e) {
-                Toast.makeText(SetlistActivity.this, "network failure :(", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SetlistActivity.this, R.string.networkFailure, Toast.LENGTH_SHORT).show();
             }
             return "Something went wrong.";
         }
@@ -128,6 +117,15 @@ public class SetlistActivity extends AppCompatActivity {
             dialog.dismiss();
             Toast.makeText(SetlistActivity.this, s, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private HashMap<String, String> createPlaylistRequestBody() {
+        HashMap<String,String> playlistBody = new HashMap<>();
+        playlistBody.put("name", setList.getArtist().getName() + " - " + setList.getEventDate());
+        playlistBody.put("description", setList.getArtist().getName() + " @ " +
+                setList.getVenue().getName() + " " + setList.getVenue().getCity().getName() +
+                " " + setList.getVenue().getCity().getStateCode() + " - " + setList.getEventDate());
+        return playlistBody;
     }
 }
 

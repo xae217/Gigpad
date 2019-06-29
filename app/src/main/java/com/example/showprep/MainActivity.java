@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.showprep.spotify.SpotifyAPI;
 import com.example.showprep.spotify.SpotifySession;
@@ -16,23 +17,17 @@ import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity {
-
-    private static final String CLIENT_ID = "07450964b36e46d6ab07178b94916e4a";
     private static final String REDIRECT_URI = "showprep://callback";
     private static final int REQUEST_CODE = 1337;
-    private String mAccessToken;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.spotifyAuthentication();
+        spotifyAuthentication();
     }
 
     @Override
@@ -48,30 +43,19 @@ public class MainActivity extends AppCompatActivity {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             switch (response.getType()) {
                 case TOKEN:
-                    mAccessToken = response.getAccessToken();
-                    SpotifySession.getInstance().setToken(mAccessToken);
-                    getUserId(); //The request happens asynchronously
+                    SpotifySession.getInstance().setToken(response.getAccessToken());
+                    getUserId();
                     break;
                 case ERROR:
-                    Log.d("Debug", "Error");
-                    //TODO: Handle Error
-                    response.getError();
+                    Log.d("Debug", response.getError());
+                    Toast.makeText(MainActivity.this, R.string.authFailed, Toast.LENGTH_SHORT).show();
                     break;
-                default:
-                    //TODO: Handle other cases
             }
         }
     }
 
     private void getUserId() {
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(SpotifyAPI.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create());
-
-        Retrofit retrofit = builder.build();
-
-        SpotifyAPI spotifyAPI = retrofit.create(SpotifyAPI.class);
-        Call<User> call = spotifyAPI.getUser(SpotifySession.getInstance().getToken());
+        Call<User> call = SpotifyAPI.getService().getUser(SpotifySession.getInstance().getToken());
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -82,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.d("mAIN", "Failed to fetch userid"); //TODO
+                Log.d("Main", "Failed to fetch userid");
             }
         });
     }
@@ -90,22 +74,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        //TODO: handle onStop
-        //Should we log out/clear tokens?
-        //AuthenticationClient#clearCookies
-    }
-
-    public void onGetUserProfileClicked(View view) {
-        Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
     }
 
     private void spotifyAuthentication() {
         AuthenticationRequest.Builder builder =
-                new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
+                new AuthenticationRequest.Builder(getString(R.string.spotifyClientId),
+                        AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
         builder.setScopes(new String[]{"streaming", "playlist-modify-public",
                 "playlist-modify-private","app-remote-control"});
         AuthenticationRequest request = builder.build();
-        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+        AuthenticationClient.openLoginActivity(MainActivity.this, REQUEST_CODE, request);
+    }
+
+    public void onSearchSetlist(View view) {
+        Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+        startActivity(intent);
     }
 }
