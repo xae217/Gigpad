@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.showprep.setlist.SetList;
 import com.example.showprep.setlist.Song;
 
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ public class SetlistAdapter extends RecyclerView.Adapter<SetlistAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         String songTitle = mSong.get(i).getName() ;
-        viewHolder.songTitle.setText(songTitle);
+        viewHolder.songTitle.setText(String.format("%d. %s", i + 1, songTitle));
     }
 
     @Override

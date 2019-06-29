@@ -108,14 +108,14 @@ public class SetlistActivity extends AppCompatActivity {
                     }
                 }
             } catch (IOException e) {
-                Toast.makeText(SetlistActivity.this, R.string.networkFailure, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.networkFailure, Toast.LENGTH_SHORT).show();
             }
             return "Something went wrong.";
         }
         @Override
         protected void onPostExecute(String s) {
             dialog.dismiss();
-            Toast.makeText(SetlistActivity.this, s, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
         }
     }
 

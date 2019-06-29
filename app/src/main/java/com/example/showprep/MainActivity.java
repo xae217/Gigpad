@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case ERROR:
                     Log.d("Debug", response.getError());
-                    Toast.makeText(MainActivity.this, R.string.authFailed, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.authFailed, Toast.LENGTH_SHORT).show();
                     break;
             }
         }
@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 User user = response.body();
                 SpotifySession.getInstance().setUserID(user.getId());
-                Log.d("Main", SpotifySession.getInstance().getUserID());
             }
 
             @Override

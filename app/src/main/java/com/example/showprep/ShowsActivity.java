@@ -58,13 +58,13 @@ public class ShowsActivity extends AppCompatActivity {
                     }
                 }
                 else {
-                    Toast.makeText(ShowsActivity.this, R.string.failedSetlistSearch, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.failedSetlistSearch, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<SearchSetlist> call, Throwable t) {
-                Toast.makeText(ShowsActivity.this, R.string.networkFailure, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.networkFailure, Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -9,36 +9,41 @@
     <TextView
         android:id="@+id/setlist_title"
         android:layout_width="124dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="47dp"
-        android:layout_marginBottom="389dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/button_create"
+        android:layout_height="36dp"
+        android:layout_marginStart="143dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="144dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/setlist_recyclerview"
-        android:layout_width="0dp"
-        android:layout_height="314dp"
-        android:layout_marginStart="54dp"
-        android:layout_marginEnd="54dp"
-        android:layout_marginBottom="169dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="328dp"
+        android:layout_height="424dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginBottom="38dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/button_create"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setlist_title" />
+        app:layout_constraintTop_toBottomOf="@+id/setlist_title"
+        app:layout_constraintVertical_bias="0.32" />
 
     <Button
         android:id="@+id/button_create"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="75dp"
-        android:text="Button"
+        android:layout_height="48dp"
+        android:layout_marginStart="162dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginBottom="28dp"
         android:onClick="createPlaylist"
+        android:text="Create Playlist"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setlist_title" />
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>
