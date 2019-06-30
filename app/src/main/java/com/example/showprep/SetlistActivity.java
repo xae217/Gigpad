@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.showprep.setlist.Set;
@@ -48,7 +49,9 @@ public class SetlistActivity extends AppCompatActivity {
     }
 
     private void displaySetList() {
+        TextView title = findViewById(R.id.setlist_title);
         setList = getIntent().getParcelableExtra("SETLIST");
+        title.setText(setList.getArtist().getName() + " | " + setList.getEventDate());
         for (Set set : setList.getSets().getSets()) {
             songs.addAll(set.getSongs());
         }

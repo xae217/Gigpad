@@ -60,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 User user = response.body();
-                SpotifySession.getInstance().setUserID(user.getId());
+                if (user != null)
+                    SpotifySession.getInstance().setUserID(user.getId());
             }
 
             @Override

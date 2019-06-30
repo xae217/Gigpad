@@ -8,15 +8,16 @@
 
     <TextView
         android:id="@+id/setlist_title"
-        android:layout_width="124dp"
+        android:layout_width="325dp"
         android:layout_height="36dp"
         android:layout_marginStart="143dp"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="144dp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="20sp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/setlist_recyclerview"
