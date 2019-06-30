@@ -21,7 +21,10 @@ import com.example.showprep.spotify.SpotifySession;
 import com.example.showprep.spotify.TracksPager;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -51,7 +54,14 @@ public class SetlistActivity extends AppCompatActivity {
     private void displaySetList() {
         TextView title = findViewById(R.id.setlist_title);
         setList = getIntent().getParcelableExtra("SETLIST");
-        title.setText(setList.getArtist().getName() + " | " + setList.getEventDate());
+        String fDate;
+        try {
+            Date date = new SimpleDateFormat("dd-MM-yyyy").parse(setList.getEventDate());
+            fDate = new SimpleDateFormat("MMM dd, yyyy").format(date);
+            title.setText(String.format("%s | %s", setList.getArtist().getName(), fDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         for (Set set : setList.getSets().getSets()) {
             songs.addAll(set.getSongs());
         }
@@ -86,7 +96,7 @@ public class SetlistActivity extends AppCompatActivity {
                 if (response.code() == 201) {
                     Playlist spotifyPlaylist = response.body();
                     if (spotifyPlaylist == null) {
-
+                        return "Something went wrong.";
                     }
                     for(Song s : songs) {
                         Call<TracksPager> callTracks = SpotifyAPI.getService().spotifySearch(SpotifySession.getInstance().getToken(),

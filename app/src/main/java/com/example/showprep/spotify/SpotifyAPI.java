@@ -42,6 +42,8 @@ public class SpotifyAPI {
                                        @Query("uris") String queryParameters);
     }
 
+
+    //TODO: This is for debugging
     private static final HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
     private static final OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
@@ -49,7 +51,7 @@ public class SpotifyAPI {
     private static final String BASE_URL = "https://api.spotify.com/v1/";
     private static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(client)
+//            .client(client)
             .addConverterFactory(GsonConverterFactory.create()).build();
 
     private static final SpotifyService SPOTIFY_SERVICE = retrofit.create(SpotifyService.class);

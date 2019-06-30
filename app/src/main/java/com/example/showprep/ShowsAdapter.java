@@ -12,7 +12,10 @@ import android.widget.TextView;
 
 import com.example.showprep.setlist.SetList;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder>{
     private ArrayList<SetList> mShows;
@@ -32,12 +35,21 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        String date = mShows.get(i).getEventDate();
+        String dateString = mShows.get(i).getEventDate();
         String venue = mShows.get(i).getVenue().getName();
         String city = mShows.get(i).getVenue().getCity().getName();
         String state = mShows.get(i).getVenue().getCity().getStateCode();
-        String showTitle = date + " - " + venue + ", " + city + ", " + state ;
-        viewHolder.showDate.setText(showTitle);
+        String showTitle = venue + "\n" + city + ", " + state ;
+        String fDate;
+        try {
+            Date date = new SimpleDateFormat("dd-MM-yyyy").parse(dateString);
+            fDate = new SimpleDateFormat("MMM dd\nyyyy").format(date);
+            viewHolder.showDate.setText(fDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        viewHolder.showLocation.setText(showTitle);
         viewHolder.parentLayout.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, SetlistActivity.class);
             intent.putExtra("SETLIST", mShows.get(i));
@@ -52,10 +64,12 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView showDate;
+        TextView showLocation;
         RelativeLayout parentLayout;
         public ViewHolder (View itemView) {
             super(itemView);
             showDate = itemView.findViewById(R.id.show_date);
+            showLocation =itemView.findViewById(R.id.show_location);
             parentLayout = itemView.findViewById(R.id.show_parent_layout);
         }
     }
