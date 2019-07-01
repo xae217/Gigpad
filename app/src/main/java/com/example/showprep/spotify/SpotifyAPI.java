@@ -2,6 +2,8 @@ package com.example.showprep.spotify;
 
 import java.util.HashMap;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -23,6 +25,11 @@ public class SpotifyAPI {
                                         @Query("q") String q,
                                         @Query("type") String type);
 
+        @GET("search")
+        Call<ArtistsPager> spotifySearchArtist(@Header("Authorization") String auth,
+                                               @Query("q") String q,
+                                               @Query("type") String type);
+
         @POST("users/{userid}/playlists")
         Call<Playlist> createPlaylist(@Path("userid") String userid,
                                       @Header("Authorization") String auth,
@@ -35,9 +42,16 @@ public class SpotifyAPI {
                                        @Query("uris") String queryParameters);
     }
 
+
+    //TODO: This is for debugging
+    private static final HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+    private static final OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+
     private static final String BASE_URL = "https://api.spotify.com/v1/";
     private static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
+//            .client(client)
             .addConverterFactory(GsonConverterFactory.create()).build();
 
     private static final SpotifyService SPOTIFY_SERVICE = retrofit.create(SpotifyService.class);

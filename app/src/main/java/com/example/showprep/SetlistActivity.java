@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.showprep.setlist.Set;
@@ -20,7 +21,10 @@ import com.example.showprep.spotify.SpotifySession;
 import com.example.showprep.spotify.TracksPager;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -48,7 +52,16 @@ public class SetlistActivity extends AppCompatActivity {
     }
 
     private void displaySetList() {
+        TextView title = findViewById(R.id.setlist_title);
         setList = getIntent().getParcelableExtra("SETLIST");
+        String fDate;
+        try {
+            Date date = new SimpleDateFormat("dd-MM-yyyy").parse(setList.getEventDate());
+            fDate = new SimpleDateFormat("MMM dd, yyyy").format(date);
+            title.setText(String.format("%s | %s", setList.getArtist().getName(), fDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         for (Set set : setList.getSets().getSets()) {
             songs.addAll(set.getSongs());
         }
@@ -83,7 +96,7 @@ public class SetlistActivity extends AppCompatActivity {
                 if (response.code() == 201) {
                     Playlist spotifyPlaylist = response.body();
                     if (spotifyPlaylist == null) {
-
+                        return "Something went wrong.";
                     }
                     for(Song s : songs) {
                         Call<TracksPager> callTracks = SpotifyAPI.getService().spotifySearch(SpotifySession.getInstance().getToken(),
@@ -108,14 +121,14 @@ public class SetlistActivity extends AppCompatActivity {
                     }
                 }
             } catch (IOException e) {
-                Toast.makeText(SetlistActivity.this, R.string.networkFailure, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.networkFailure, Toast.LENGTH_SHORT).show();
             }
             return "Something went wrong.";
         }
         @Override
         protected void onPostExecute(String s) {
             dialog.dismiss();
-            Toast.makeText(SetlistActivity.this, s, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
         }
     }
 

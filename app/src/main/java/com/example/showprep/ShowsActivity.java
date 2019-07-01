@@ -1,17 +1,26 @@
 package com.example.showprep;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.showprep.setlist.SearchSetlist;
 import com.example.showprep.setlist.SetList;
 import com.example.showprep.setlist.SetlistAPI;
+import com.example.showprep.spotify.ArtistsPager;
+import com.example.showprep.spotify.SpotifyAPI;
+import com.example.showprep.spotify.SpotifySession;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -48,8 +57,7 @@ public class ShowsActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     SearchSetlist searchResults = response.body();
                     if (searchResults != null) {
-                        TextView artistTitle = findViewById(R.id.artist_title);
-                        artistTitle.setText(searchResults.getsetlists().get(0).getArtist().getName());
+                        displayHeader(searchResults.getsetlists().get(0).getArtist().getName());
                         adapter.clear();
                         for (SetList s : searchResults.getsetlists()) {
                             showDates.add(s);
@@ -58,14 +66,65 @@ public class ShowsActivity extends AppCompatActivity {
                     }
                 }
                 else {
-                    Toast.makeText(ShowsActivity.this, R.string.failedSetlistSearch, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.failedSetlistSearch, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<SearchSetlist> call, Throwable t) {
-                Toast.makeText(ShowsActivity.this, R.string.networkFailure, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.networkFailure, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    /* Display Artist Name and image */
+    private void displayHeader(String artistName) {
+        TextView artistTitle = findViewById(R.id.artist_title);
+        artistTitle.setText(artistName);
+        Call<ArtistsPager> call = SpotifyAPI.getService().spotifySearchArtist(SpotifySession.getInstance().getToken(),
+                "artist:" + artistName, "artist");
+        call.enqueue(new Callback<ArtistsPager>() {
+            @Override
+            public void onResponse(Call<ArtistsPager> call, Response<ArtistsPager> response) {
+                if (response.code() == 200) {
+                    ArtistsPager artistsPager = response.body();
+                    if (artistsPager.getArtists() != null) {
+                        String imgUrl = artistsPager .getArtists().getItems().get(0).getImages().get(0).getUrl();
+                        new DownloadImageTask(findViewById(R.id.artistImage)).execute(imgUrl);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArtistsPager> call, Throwable t) {
+                Log.e("error", "Failed image");
+            }
+        });
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 }

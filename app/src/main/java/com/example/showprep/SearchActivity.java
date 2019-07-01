@@ -51,6 +51,9 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
+                if (searchView.getQuery().length() == 0) {
+                    adapter.clear();
+                }
                 searchArtist(s);
                 return true;
             }
