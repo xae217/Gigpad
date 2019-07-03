@@ -1,12 +1,13 @@
 package com.example.showprep;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.showprep.db.LocalDatabase;
 import com.example.showprep.spotify.SpotifyAPI;
 import com.example.showprep.spotify.SpotifySession;
 import com.example.showprep.spotify.User;
@@ -14,6 +15,7 @@ import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
+import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,8 +62,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 User user = response.body();
-                if (user != null)
+                if (user != null) {
                     SpotifySession.getInstance().setUserID(user.getId());
+                    new UserTask(LocalDatabase.getDatabase(MainActivity.this.getApplicationContext())).execute(user);
+                }
             }
 
             @Override
@@ -89,5 +93,29 @@ public class MainActivity extends AppCompatActivity {
     public void onSearchSetlist(View view) {
         Intent intent = new Intent(MainActivity.this, SearchActivity.class);
         startActivity(intent);
+    }
+
+    private static class UserTask extends AsyncTask<User, Void, String> {
+        private final LocalDatabase mdb;
+        public UserTask (LocalDatabase db) {
+            mdb = db;
+        }
+        @Override
+        protected String doInBackground(User... params) {
+            if(mdb.userDao().getUser(params[0].getId()) == null) {
+                com.example.showprep.db.User newUser = new com.example.showprep.db.User(params[0].getId(),
+                        params[0].getDisplay_name(), params[0].getImages().get(0).getUrl());
+                mdb.userDao().insert(newUser);
+            }
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+        }
+
+        @Override
+        protected void onPreExecute() {}
+
     }
 }

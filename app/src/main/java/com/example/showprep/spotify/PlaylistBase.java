@@ -15,7 +15,7 @@ public abstract class PlaylistBase implements Parcelable {
     private String id;
     private List<Image> images;
     private String name;
-    private UserPublic owner;
+    private User owner;
     @SerializedName("private")
     private Boolean is_public;
     private String snapshot_id;
@@ -52,7 +52,7 @@ public abstract class PlaylistBase implements Parcelable {
         this.id = (String) in.readValue(String.class.getClassLoader());
         this.images = in.createTypedArrayList(Image.CREATOR);
         this.name = (String) in.readValue(String.class.getClassLoader());
-        this.owner = in.readParcelable(UserPublic.class.getClassLoader());
+        this.owner = in.readParcelable(User.class.getClassLoader());
         this.is_public = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.snapshot_id = (String) in.readValue(String.class.getClassLoader());
         this.type = (String) in.readValue(String.class.getClassLoader());
@@ -83,7 +83,7 @@ public abstract class PlaylistBase implements Parcelable {
         return name;
     }
 
-    public UserPublic getOwner() {
+    public User getOwner() {
         return owner;
     }
 

@@ -2,9 +2,6 @@ package com.example.showprep;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +11,10 @@ import android.widget.TextView;
 import com.example.showprep.setlist.Artist;
 
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Dao;
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
     public static final String ARTIST_MBID = "ARTIST_MBID";

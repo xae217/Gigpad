@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class PlaylistTrack implements Parcelable {
     private String added_at;
-    private UserPublic added_by;
+    private User added_by;
     private Track track;
     private Boolean is_local;
 
@@ -27,7 +27,7 @@ public class PlaylistTrack implements Parcelable {
 
     protected PlaylistTrack(Parcel in) {
         this.added_at = in.readString();
-        this.added_by = in.readParcelable(UserPublic.class.getClassLoader());
+        this.added_by = in.readParcelable(User.class.getClassLoader());
         this.track = in.readParcelable(Track.class.getClassLoader());
         this.is_local = (Boolean) in.readValue(Boolean.class.getClassLoader());
     }
@@ -46,7 +46,7 @@ public class PlaylistTrack implements Parcelable {
         return added_at;
     }
 
-    public UserPublic getAdded_by() {
+    public User getAdded_by() {
         return added_by;
     }
 

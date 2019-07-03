@@ -1,12 +1,9 @@
 package com.example.showprep;
 
+
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +14,10 @@ import com.example.showprep.setlist.SetlistAPI;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,7 +64,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void searchArtist(String searchTerm) {
-        Call<SearchArtist> call = SetlistAPI.getService().searchArtist(searchTerm);
+        Call<SearchArtist> call = SetlistAPI.getService().searchArtist(searchTerm,"relevance");
         call.enqueue(new Callback<SearchArtist>() {
             @Override
             public void onResponse(Call<SearchArtist> call, Response<SearchArtist> response) {
@@ -93,8 +94,10 @@ public class SearchActivity extends AppCompatActivity {
         int top = searchResults.getArtists().size() < 10 ? searchResults.getArtists().size() : 9;
         adapter.clear();
         for (int i = 0; i < top; i++) {
-            artists.add(searchResults.getArtists().get(i));
-            adapter.notifyItemInserted(artists.size() - 1);
+            if (searchResults.getArtists().get(i).getTmid() != null || searchResults.getArtists().size() < 3) {
+                artists.add(searchResults.getArtists().get(i));
+                adapter.notifyItemInserted(artists.size() - 1);
+            }
         }
     }
 }

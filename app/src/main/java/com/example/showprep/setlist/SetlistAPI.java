@@ -24,7 +24,7 @@ public class SetlistAPI {
                 "x-api-key: " + API_KEY
         })
         @GET("search/artists")
-        Call<SearchArtist> searchArtist(@Query("artistName") String artistName);
+        Call<SearchArtist> searchArtist(@Query("artistName") String artistName, @Query("sort") String sort);
 
         @Headers({
                 "Accept: application/json",

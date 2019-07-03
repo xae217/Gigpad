@@ -2,8 +2,8 @@ package com.example.showprep.spotify;
 
 public class SpotifySession {
     private static final SpotifySession access = new SpotifySession();
-    private String token;
-    private String userID;
+    private String token = "";
+    private String userID = "";
 
     public static SpotifySession getInstance() {
         return access;

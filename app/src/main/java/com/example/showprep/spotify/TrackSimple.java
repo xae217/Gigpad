@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TrackSimple implements Parcelable {
-    private List<ArtistSimple> artists;
+    private List<Artist> artists;
     private List<String> available_markets;
     private Boolean is_playable;
     private LinkedTrack linked_from;
@@ -52,7 +52,7 @@ public class TrackSimple implements Parcelable {
     }
 
     protected TrackSimple(Parcel in) {
-        this.artists = in.createTypedArrayList(ArtistSimple.CREATOR);
+        this.artists = in.createTypedArrayList(Artist.CREATOR);
         this.available_markets = in.createStringArrayList();
         this.is_playable = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.linked_from = in.readParcelable(LinkedTrack.class.getClassLoader());
@@ -79,7 +79,7 @@ public class TrackSimple implements Parcelable {
         }
     };
 
-    public List<ArtistSimple> getArtists() {
+    public List<Artist> getArtists() {
         return artists;
     }
 
