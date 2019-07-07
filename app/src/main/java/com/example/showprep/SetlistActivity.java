@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.showprep.db.Artist;
-import com.example.showprep.db.LocalDatabase;
+import com.example.showprep.db.AppDatabase;
 import com.example.showprep.db.Setlist;
 import com.example.showprep.db.Track;
 import com.example.showprep.setlist.Set;
@@ -142,7 +142,7 @@ public class SetlistActivity extends AppCompatActivity {
         }
         private void insertSetlistToDb() {
             newSetlist.setArtistId(newArtist.getId());
-            LocalDatabase db = LocalDatabase.getDatabase(getApplicationContext());
+            AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
             db.setlistDao().insert(newSetlist);
             db.artistDoa().insert(newArtist);
             for (Track t : newTracks) {
@@ -153,8 +153,8 @@ public class SetlistActivity extends AppCompatActivity {
         /* Map the tracks from Setlist.fm to Spotify URIs */
         private String getTrackUris() throws IOException {
             StringBuilder uris = new StringBuilder();
-            for(int i = 0; i < songs.size(); i++) {
-                Song s = songs.get(i);
+            boolean createdArtist = false;
+            for(Song s: songs) {
                 Call<TracksPager> callTracks = SpotifyAPI.getService().spotifySearch(SpotifySession.getInstance().getToken(),
                         parseQuery(setList.getArtist().getName(), s.getName()), "track");
                 Response<TracksPager> responseTracks = callTracks.execute();
@@ -163,13 +163,13 @@ public class SetlistActivity extends AppCompatActivity {
                     if (pager != null) {
                         if (!pager.getTracks().getItems().isEmpty()) {
                             com.example.showprep.spotify.Track spotifyTrack = pager.getTracks().getItems().get(0);
-
-                            if(i == 0) {
+                            if(!createdArtist) {
                                 newArtist = new Artist(spotifyTrack.getArtists().get(0).getId(),
                                         spotifyTrack.getArtists().get(0).getName(),
                                         "", //TODO this does not seem to be working. We cannot get images spotifyTrack.getArtists().get(0).getImages().get(0).getUrl()
                                         spotifyTrack.getArtists().get(0).getUri(),
                                         setList.getArtist().getMbid());
+                                createdArtist = true;
                             }
 
                             uris.append(spotifyTrack.getUri()).append(",");
@@ -191,4 +191,4 @@ public class SetlistActivity extends AppCompatActivity {
     }
 }
 
-//Todo solve random crashes.
+//TODO clean this up. Move logid to a new file.

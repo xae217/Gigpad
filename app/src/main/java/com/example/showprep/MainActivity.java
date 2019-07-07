@@ -7,15 +7,25 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.showprep.db.LocalDatabase;
+import com.example.showprep.db.AppDatabase;
+import com.example.showprep.db.SavedSetlist;
+import com.example.showprep.db.SetlistViewModel;
 import com.example.showprep.spotify.SpotifyAPI;
 import com.example.showprep.spotify.SpotifySession;
 import com.example.showprep.spotify.User;
+import com.facebook.stetho.Stetho;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,13 +34,28 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     private static final String REDIRECT_URI = "showprep://callback";
     private static final int REQUEST_CODE = 1337;
+    private SetlistViewModel setlistViewModel;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         spotifyAuthentication();
+        recyclerView = findViewById(R.id.savedSetlistRecyclerView);
+        SavedSetlistAdapter adapter = new SavedSetlistAdapter(new ArrayList<>(), this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        Stetho.initializeWithDefaults(this); //TODO for DEBUG only. Remove gradel dependency
+        setlistViewModel = ViewModelProviders.of(this).get(SetlistViewModel.class);
+        setlistViewModel.getmSetlists().observe(MainActivity.this, new Observer<List<SavedSetlist>>() {
+            @Override
+            public void onChanged(List<SavedSetlist> savedSetlists) {
+                adapter.addItems(savedSetlists);
+            }
+        });
     }
+
 
     @Override
     protected void onStart() {
@@ -64,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 User user = response.body();
                 if (user != null) {
                     SpotifySession.getInstance().setUserID(user.getId());
-                    new UserTask(LocalDatabase.getDatabase(MainActivity.this.getApplicationContext())).execute(user);
+                    new UserTask(AppDatabase.getDatabase(MainActivity.this.getApplicationContext())).execute(user);
                 }
             }
 
@@ -96,8 +121,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static class UserTask extends AsyncTask<User, Void, String> {
-        private final LocalDatabase mdb;
-        public UserTask (LocalDatabase db) {
+        private final AppDatabase mdb;
+        public UserTask (AppDatabase db) {
             mdb = db;
         }
         @Override

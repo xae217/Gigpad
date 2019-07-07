@@ -8,21 +8,21 @@ import androidx.room.RoomDatabase;
 
 
 @Database(entities = {User.class, Setlist.class, Track.class, Artist.class}, version = 1, exportSchema = false)
-public abstract class LocalDatabase extends RoomDatabase {
+public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
     public abstract SetlistDao setlistDao();
     public abstract TrackDoa trackDoa();
     public abstract ArtistDao artistDoa();
 
-    private static volatile LocalDatabase INSTANCE;
+    private static volatile AppDatabase INSTANCE;
 
-    public static LocalDatabase getDatabase(final Context context) {
+    public static AppDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
-            synchronized (LocalDatabase.class) {
+            synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            LocalDatabase.class, "local_database")
+                            AppDatabase.class, "local_database")
                             .build();
                 }
             }

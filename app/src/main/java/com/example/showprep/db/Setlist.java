@@ -1,11 +1,18 @@
 package com.example.showprep.db;
 
 import androidx.annotation.NonNull;
-
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
 @Entity(tableName = "setlist")
+/* TODO: Look into using foreign keys
+@Entity(tableName = "setlist",
+        foreignKeys = {@ForeignKey(entity = Track.class,
+        parentColumns = "id",
+        childColumns = "setlistId",
+        onDelete = CASCADE), @ForeignKey(entity = Artist.class,
+        parentColumns = "artistId",
+        childColumns = "id",
+        onDelete = CASCADE)}) */
 public class Setlist {
     @PrimaryKey
     @NonNull

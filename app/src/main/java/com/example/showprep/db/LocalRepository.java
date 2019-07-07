@@ -14,15 +14,15 @@ public class LocalRepository {
     private ArtistDao artistDoa;
 
     LocalRepository(Application application) {
-        LocalDatabase db = LocalDatabase.getDatabase(application);
+        AppDatabase db = AppDatabase.getDatabase(application);
         setlistDao = db.setlistDao();
         userDao = db.userDao();
         trackDoa = db.trackDoa();
         artistDoa = db.artistDoa();
 }
 
-    LiveData<List<Setlist>> getAllSetlist(String userId) {
-        return setlistDao.getAllSetlists(userId);
+    LiveData<List<Setlist>> getAllSetlist() {
+        return setlistDao.getAllSetlists();
     }
 
 

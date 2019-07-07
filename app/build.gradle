@@ -50,5 +50,8 @@ dependencies {
 // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.archLifecycleVersion"
+
+    //DEBUG
+    implementation 'com.facebook.stetho:stetho:1.5.1'
 }
 
