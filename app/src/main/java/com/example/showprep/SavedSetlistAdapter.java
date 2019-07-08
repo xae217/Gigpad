@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,6 +35,9 @@ public class SavedSetlistAdapter extends RecyclerView.Adapter<SavedSetlistAdapte
     public void onBindViewHolder(@NonNull SavedSetlistAdapter.RecyclerViewHolder holder, int position) {
         SavedSetlist savedSetlist = savedSetlists.get(position);
         holder.setlistName.setText(savedSetlist.getSetlist().getName());
+        holder.setlistLocation.setText(savedSetlist.getSetlist().getLocation());
+        holder.setlistLength.setText(savedSetlist.getTrack().size() + " tracks");
+        new DownloadImageTask(holder.artistImage).execute(savedSetlist.getArtist().get(0).getImage());
     }
 
     @Override
@@ -42,11 +46,17 @@ public class SavedSetlistAdapter extends RecyclerView.Adapter<SavedSetlistAdapte
     }
     static class RecyclerViewHolder extends RecyclerView.ViewHolder {
         private TextView setlistName;
+        private TextView setlistLocation;
+        private TextView setlistLength;
         private RelativeLayout  partentLayout;
+        private ImageView artistImage;
         RecyclerViewHolder(View view) {
             super(view);
             setlistName = itemView.findViewById(R.id.saved_setlist_title);
+            setlistLocation = itemView.findViewById(R.id.saved_setlist_location);
+            setlistLength = itemView.findViewById(R.id.saved_setlist_length);
             partentLayout = itemView.findViewById(R.id.saved_setlist_parent_layout);
+            artistImage = itemView.findViewById(R.id.saved_artistImage);
         }
     }
 

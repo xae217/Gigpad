@@ -38,6 +38,7 @@ public class SetlistActivity extends AppCompatActivity {
     private static final String TAG = "SetlistActivity";
     private ArrayList<Song> songs; // list of songs in a set list
     private SetList setList;
+    private com.example.showprep.spotify.Artist artist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class SetlistActivity extends AppCompatActivity {
     private void displaySetList() {
         TextView title = findViewById(R.id.setlist_title);
         setList = getIntent().getParcelableExtra("SETLIST");
+        artist = getIntent().getParcelableExtra("ARTIST");
         String fDate;
         try {
             Date date = new SimpleDateFormat("dd-MM-yyyy").parse(setList.getEventDate());
@@ -90,7 +92,7 @@ public class SetlistActivity extends AppCompatActivity {
     }
 
     private class PlaylistTask extends AsyncTask<String, String, String> {
-        private ProgressDialog dialog = new ProgressDialog(SetlistActivity.this);
+        private ProgressDialog dialog = new ProgressDialog(SetlistActivity.this); // TODO: Progress Dialog is deprecated
         private Setlist newSetlist;
         private Artist newArtist;
         private ArrayList<Track> newTracks;
@@ -111,12 +113,21 @@ public class SetlistActivity extends AppCompatActivity {
                 Response<Playlist> response = call.execute();
                 if (response.code() == 201) {
                     Playlist spotifyPlaylist = response.body();
+
                     newSetlist = new Setlist(spotifyPlaylist.getId(), spotifyPlaylist.getName(),
                             spotifyPlaylist.getDescription(),
                             setList.getEventDate(),
-                            setList.getVenue().getCity() + ", " + setList.getVenue().getCity().getStateCode(),
+                            setList.getVenue().getCity().getName() + ", " + setList.getVenue().getCity().getStateCode(),
                             SpotifySession.getInstance().getUserID(),
                             "");
+
+                    newArtist = new Artist(artist.getId(),
+                            artist.getName(),
+                            artist.getImages().get(0).getUrl(),
+                            artist.getUri(),
+                            setList.getArtist().getMbid());
+
+
                     if (spotifyPlaylist == null) {
                         return "Unable to create Playlist.";
                     }
@@ -153,7 +164,6 @@ public class SetlistActivity extends AppCompatActivity {
         /* Map the tracks from Setlist.fm to Spotify URIs */
         private String getTrackUris() throws IOException {
             StringBuilder uris = new StringBuilder();
-            boolean createdArtist = false;
             for(Song s: songs) {
                 Call<TracksPager> callTracks = SpotifyAPI.getService().spotifySearch(SpotifySession.getInstance().getToken(),
                         parseQuery(setList.getArtist().getName(), s.getName()), "track");
@@ -163,16 +173,8 @@ public class SetlistActivity extends AppCompatActivity {
                     if (pager != null) {
                         if (!pager.getTracks().getItems().isEmpty()) {
                             com.example.showprep.spotify.Track spotifyTrack = pager.getTracks().getItems().get(0);
-                            if(!createdArtist) {
-                                newArtist = new Artist(spotifyTrack.getArtists().get(0).getId(),
-                                        spotifyTrack.getArtists().get(0).getName(),
-                                        "", //TODO this does not seem to be working. We cannot get images spotifyTrack.getArtists().get(0).getImages().get(0).getUrl()
-                                        spotifyTrack.getArtists().get(0).getUri(),
-                                        setList.getArtist().getMbid());
-                                createdArtist = true;
-                            }
-
                             uris.append(spotifyTrack.getUri()).append(",");
+                            //Create Track records to insert to DB
                             Track newTrack = new Track(spotifyTrack.getId(),newSetlist.getId(),
                                     spotifyTrack.getName(),
                                     spotifyTrack.getUri(),
@@ -191,4 +193,4 @@ public class SetlistActivity extends AppCompatActivity {
     }
 }
 
-//TODO clean this up. Move logid to a new file.
+//TODO clean this up. Move internal class to a new file. Refactore creation of newdbrecords.

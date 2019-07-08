@@ -2,8 +2,6 @@ package com.example.showprep;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,19 +9,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.showprep.setlist.SetList;
+import com.example.showprep.spotify.Artist;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder>{
     private ArrayList<SetList> mShows;
     private Context mContext;
+    private Artist artist;
 
     public ShowsAdapter(ArrayList<SetList> mShows, Context mContext) {
         this.mShows = mShows;
         this.mContext = mContext;
+        this.artist = new Artist();
     }
 
     @NonNull
@@ -53,6 +57,7 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder>{
         viewHolder.parentLayout.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, SetlistActivity.class);
             intent.putExtra("SETLIST", mShows.get(i));
+            intent.putExtra("ARTIST", this.artist);
             mContext.startActivity(intent);
         });
     }
@@ -81,5 +86,9 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder>{
             }
             notifyItemRangeRemoved(0, size);
         }
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
     }
 }

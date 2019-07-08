@@ -1,12 +1,8 @@
 package com.example.showprep;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +13,6 @@ import com.example.showprep.spotify.ArtistsPager;
 import com.example.showprep.spotify.SpotifyAPI;
 import com.example.showprep.spotify.SpotifySession;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -89,7 +84,8 @@ public class ShowsActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     ArtistsPager artistsPager = response.body();
                     if (artistsPager.getArtists() != null) {
-                        String imgUrl = artistsPager .getArtists().getItems().get(0).getImages().get(0).getUrl();
+                        adapter.setArtist(artistsPager.getArtists().getItems().get(0));
+                        String imgUrl = artistsPager.getArtists().getItems().get(0).getImages().get(0).getUrl();
                         new DownloadImageTask(findViewById(R.id.artistImage)).execute(imgUrl);
                     }
 
@@ -103,28 +99,5 @@ public class ShowsActivity extends AppCompatActivity {
         });
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
 
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
 }

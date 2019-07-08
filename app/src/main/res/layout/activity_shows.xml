@@ -8,7 +8,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="141dp">
+        android:layout_height="140dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
@@ -19,8 +19,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 app:layout_collapseMode="parallax">
 
                 <TextView
@@ -31,8 +31,9 @@
                     android:layout_marginBottom="16dp"
                     android:layout_toEndOf="@+id/card_view_for_image"
                     android:gravity="center_vertical"
-                    android:textSize="25sp"
-                    android:textColor="@color/textHigh"/>
+                    android:textColor="@color/textHigh"
+                    android:textSize="25sp" />
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_view_for_image"
                     android:layout_width="120dp"
@@ -40,12 +41,13 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     app:cardCornerRadius="100dp">
+
                     <ImageView
                         android:id="@+id/artistImage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:contentDescription="Artist Image"
-                        app:srcCompat="@android:color/transparent"/>
+                        app:srcCompat="@android:color/transparent" />
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -59,4 +61,5 @@
         android:layout_marginEnd="8dp"
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
