@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,19 +9,21 @@
     android:layout_margin="10dp"
     android:background="#12FFFFFF"
     android:elevation="20dp">
+
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_for_image"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         app:cardCornerRadius="100dp">
+
         <ImageView
             android:id="@+id/saved_artistImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="Artist Image"
-            app:srcCompat="@android:color/transparent"/>
+            app:srcCompat="@android:color/transparent" />
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -29,22 +32,39 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
         android:layout_toEndOf="@+id/card_view_for_image"
         android:background="@android:color/transparent"
+        android:text="The Wonder Years"
         android:textColor="@color/textHigh"
         android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/saved_setlist_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/saved_setlist_title"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toEndOf="@+id/card_view_for_image"
+        android:background="@android:color/transparent"
+        android:text="July 13, 2019"
+        android:textColor="@color/textHigh"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/saved_setlist_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/saved_setlist_title"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="9dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="0dp"
+        android:layout_below="@+id/saved_setlist_date"
         android:layout_toEndOf="@+id/card_view_for_image"
         android:background="@android:color/transparent"
+        android:text="Philadelphia PA"
         android:textColor="@color/textMedium"
         android:textSize="13sp" />
 
@@ -52,11 +72,12 @@
         android:id="@+id/saved_setlist_length"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/card_view_for_image"
+        android:layout_below="@+id/saved_setlist_location"
         android:layout_marginStart="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="2dp"
         android:layout_toEndOf="@+id/card_view_for_image"
         android:background="@android:color/transparent"
+        android:text="12 songs"
         android:textColor="@color/textLow"
         android:textSize="12sp" />
 </RelativeLayout>

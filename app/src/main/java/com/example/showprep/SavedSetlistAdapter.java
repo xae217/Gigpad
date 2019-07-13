@@ -34,7 +34,8 @@ public class SavedSetlistAdapter extends RecyclerView.Adapter<SavedSetlistAdapte
     @Override
     public void onBindViewHolder(@NonNull SavedSetlistAdapter.RecyclerViewHolder holder, int position) {
         SavedSetlist savedSetlist = savedSetlists.get(position);
-        holder.setlistName.setText(savedSetlist.getSetlist().getName());
+        holder.setlistName.setText(savedSetlist.getArtist().get(0).getName());
+        holder.setlistDate.setText(savedSetlist.getSetlist().getDate());
         holder.setlistLocation.setText(savedSetlist.getSetlist().getLocation());
         holder.setlistLength.setText(savedSetlist.getTrack().size() + " tracks");
         new DownloadImageTask(holder.artistImage).execute(savedSetlist.getArtist().get(0).getImage());
@@ -48,6 +49,7 @@ public class SavedSetlistAdapter extends RecyclerView.Adapter<SavedSetlistAdapte
         private TextView setlistName;
         private TextView setlistLocation;
         private TextView setlistLength;
+        private TextView setlistDate;
         private RelativeLayout  partentLayout;
         private ImageView artistImage;
         RecyclerViewHolder(View view) {
@@ -57,6 +59,7 @@ public class SavedSetlistAdapter extends RecyclerView.Adapter<SavedSetlistAdapte
             setlistLength = itemView.findViewById(R.id.saved_setlist_length);
             partentLayout = itemView.findViewById(R.id.saved_setlist_parent_layout);
             artistImage = itemView.findViewById(R.id.saved_artistImage);
+            setlistDate = itemView.findViewById(R.id.saved_setlist_date);
         }
     }
 
