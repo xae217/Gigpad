@@ -1,4 +1,4 @@
-package com.example.gigpad;
+package com.example.gigpad.ui;
 
 
 import android.app.SearchManager;
@@ -8,9 +8,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 
+import com.example.gigpad.R;
 import com.example.gigpad.setlist.Artist;
 import com.example.gigpad.setlist.SearchArtist;
 import com.example.gigpad.setlist.SetlistAPI;
+import com.example.gigpad.ui.adapters.SearchAdapter;
 
 import java.util.ArrayList;
 
@@ -24,7 +26,7 @@ import retrofit2.Response;
 
 public class SearchActivity extends AppCompatActivity {
     private ArrayList<Artist> artists;
-    private ArtistAdapter adapter;
+    private SearchAdapter adapter;
     private static final String TAG = "SearchActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +87,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        adapter = new ArtistAdapter(artists,this);
+        adapter = new SearchAdapter(artists,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

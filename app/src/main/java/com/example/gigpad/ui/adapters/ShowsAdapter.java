@@ -1,4 +1,4 @@
-package com.example.gigpad;
+package com.example.gigpad.ui.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.gigpad.R;
 import com.example.gigpad.setlist.SetList;
 import com.example.gigpad.spotify.Artist;
+import com.example.gigpad.ui.SetlistActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

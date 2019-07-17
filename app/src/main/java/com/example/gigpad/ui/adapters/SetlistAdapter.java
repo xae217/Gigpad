@@ -1,4 +1,4 @@
-package com.example.gigpad;
+package com.example.gigpad.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.gigpad.R;
 import com.example.gigpad.setlist.Song;
 
 import java.util.ArrayList;
@@ -16,11 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class SetlistAdapter extends RecyclerView.Adapter<SetlistAdapter.ViewHolder>{
     private static final String TAG = "SetlistAdapter";
-    private ArrayList<Song> mSong;
+    private ArrayList<Song> mSongs;
     private Context mContext;
 
-    public SetlistAdapter(ArrayList<Song> mSong, Context mContext) {
-        this.mSong = mSong;
+    public SetlistAdapter(ArrayList<Song> mSongs, Context mContext) {
+        this.mSongs = mSongs;
         this.mContext = mContext;
     }
 
@@ -35,13 +36,13 @@ public class SetlistAdapter extends RecyclerView.Adapter<SetlistAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        String songTitle = mSong.get(i).getName() ;
-        viewHolder.songTitle.setText(String.format("%d. %s", i + 1, songTitle));
+        String songTitle = mSongs.get(i).getName() ;
+        viewHolder.songTitle.setText(String.format("%2d. %s", i + 1, songTitle));
     }
 
     @Override
     public int getItemCount() {
-        return mSong.size();
+        return mSongs.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -53,11 +54,12 @@ public class SetlistAdapter extends RecyclerView.Adapter<SetlistAdapter.ViewHold
             parentLayout = itemView.findViewById(R.id.song_parent_layout);
         }
     }
+
     public void clear() {
-        final int size = mSong.size();
+        final int size = mSongs.size();
         if (size > 0) {
             for (int i = 0; i < size; i++) {
-                mSong.remove(0);
+                mSongs.remove(0);
             }
             notifyItemRangeRemoved(0, size);
         }

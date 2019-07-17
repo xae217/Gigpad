@@ -1,4 +1,4 @@
-package com.example.gigpad;
+package com.example.gigpad.ui;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.gigpad.R;
 import com.example.gigpad.db.Artist;
 import com.example.gigpad.db.AppDatabase;
 import com.example.gigpad.db.Setlist;
@@ -20,6 +21,7 @@ import com.example.gigpad.spotify.SnapshotId;
 import com.example.gigpad.spotify.SpotifyAPI;
 import com.example.gigpad.spotify.SpotifySession;
 import com.example.gigpad.spotify.TracksPager;
+import com.example.gigpad.ui.adapters.SetlistAdapter;
 
 import java.io.IOException;
 import java.text.ParseException;
