@@ -7,4 +7,5 @@
     <color name="textHigh">#E6FFFFFF</color>
     <color name="textMedium">#B3FFFCFC</color>
     <color name="textLow">#73CFCFCF</color>
+    <color name="main">#1DADBA</color>
 </resources>
