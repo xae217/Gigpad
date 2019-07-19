@@ -1,4 +1,4 @@
-package com.example.gigpad;
+package com.example.gigpad.ui;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -7,12 +7,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.gigpad.R;
 import com.example.gigpad.db.AppDatabase;
 import com.example.gigpad.db.SavedSetlist;
 import com.example.gigpad.db.SetlistViewModel;
 import com.example.gigpad.spotify.SpotifyAPI;
 import com.example.gigpad.spotify.SpotifySession;
 import com.example.gigpad.spotify.User;
+import com.example.gigpad.ui.adapters.MainAdapter;
 import com.facebook.stetho.Stetho;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         spotifyAuthentication();
         recyclerView = findViewById(R.id.savedSetlistRecyclerView);
-        SavedSetlistAdapter adapter = new SavedSetlistAdapter(new ArrayList<>(), this);
+        MainAdapter adapter = new MainAdapter(new ArrayList<>(), this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         Stetho.initializeWithDefaults(this); //TODO for DEBUG only. Remove gradel dependency

@@ -1,10 +1,13 @@
 package com.example.gigpad.db;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 
-@Entity(tableName = "track", primaryKeys = {"id","setlistId"})
-public class Track {
+@Entity(tableName = "track", primaryKeys =  {"id","setlistId"})
+public class Track implements Parcelable{
     @NonNull
     private String id;
     @NonNull
@@ -47,4 +50,41 @@ public class Track {
     public long getDuration() {
         return duration;
     }
+
+    protected Track(Parcel in) {
+        id = in.readString();
+        setlistId = in.readString();
+        name = in.readString();
+        uri = in.readString();
+        trackNum = in.readInt();
+        duration = in.readLong();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(setlistId);
+        dest.writeString(name);
+        dest.writeString(uri);
+        dest.writeInt(trackNum);
+        dest.writeLong(duration);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Track> CREATOR = new Parcelable.Creator<Track>() {
+        @Override
+        public Track createFromParcel(Parcel in) {
+            return new Track(in);
+        }
+
+        @Override
+        public Track[] newArray(int size) {
+            return new Track[size];
+        }
+    };
 }

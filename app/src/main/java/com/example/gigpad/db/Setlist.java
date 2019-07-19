@@ -1,19 +1,22 @@
 package com.example.gigpad.db;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 @Entity(tableName = "setlist")
 /* TODO: Look into using foreign keys
 @Entity(tableName = "setlist",
-        foreignKeys = {@ForeignKey(entity = Track.class,
+        foreignKeys = implements Parcelable {@ForeignKey(entity = Track.class,
         parentColumns = "id",
         childColumns = "setlistId",
         onDelete = CASCADE), @ForeignKey(entity = Artist.class,
         parentColumns = "artistId",
         childColumns = "id",
         onDelete = CASCADE)}) */
-public class Setlist {
+public class Setlist implements Parcelable {
     @PrimaryKey
     @NonNull
     private String id;
@@ -66,4 +69,43 @@ public class Setlist {
     public void setArtistId(String artistId) {
         this.artistId = artistId;
     }
+
+    protected Setlist(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        description = in.readString();
+        date = in.readString();
+        location = in.readString();
+        userId = in.readString();
+        artistId = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeString(date);
+        dest.writeString(location);
+        dest.writeString(userId);
+        dest.writeString(artistId);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Setlist> CREATOR = new Parcelable.Creator<Setlist>() {
+        @Override
+        public Setlist createFromParcel(Parcel in) {
+            return new Setlist(in);
+        }
+
+        @Override
+        public Setlist[] newArray(int size) {
+            return new Setlist[size];
+        }
+    };
 }

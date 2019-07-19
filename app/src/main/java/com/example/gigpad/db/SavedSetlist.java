@@ -1,11 +1,15 @@
 package com.example.gigpad.db;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
-public class SavedSetlist {
+public class SavedSetlist implements Parcelable {
     @Embedded
     private Setlist setlist;
     @Relation(parentColumn = "artistId", entityColumn = "id")
@@ -30,4 +34,55 @@ public class SavedSetlist {
     public List<Track> getTrack() {
         return track;
     }
+
+    protected SavedSetlist(Parcel in) {
+        setlist = (Setlist) in.readValue(Setlist.class.getClassLoader());
+        if (in.readByte() == 0x01) {
+            artist = new ArrayList<Artist>();
+            in.readList(artist, Artist.class.getClassLoader());
+        } else {
+            artist = null;
+        }
+        if (in.readByte() == 0x01) {
+            track = new ArrayList<Track>();
+            in.readList(track, Track.class.getClassLoader());
+        } else {
+            track = null;
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(setlist);
+        if (artist == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(artist);
+        }
+        if (track == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(track);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<SavedSetlist> CREATOR = new Parcelable.Creator<SavedSetlist>() {
+        @Override
+        public SavedSetlist createFromParcel(Parcel in) {
+            return new SavedSetlist(in);
+        }
+
+        @Override
+        public SavedSetlist[] newArray(int size) {
+            return new SavedSetlist[size];
+        }
+    };
 }

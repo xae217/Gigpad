@@ -1,4 +1,4 @@
-package com.example.gigpad;
+package com.example.gigpad.tasks;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import java.io.InputStream;
 
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-    ImageView bmImage;
+    private ImageView bmImage;
 
     public DownloadImageTask(ImageView bmImage) {
         this.bmImage = bmImage;
@@ -30,5 +30,6 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
     protected void onPostExecute(Bitmap result) {
         bmImage.setImageBitmap(result);
+        bmImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
 }

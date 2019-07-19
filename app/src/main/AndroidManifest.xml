@@ -12,9 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.gigpad.SetlistActivity"></activity>
-        <activity android:name="com.example.gigpad.ShowsActivity" />
-        <activity android:name="com.example.gigpad.SearchActivity">
+        <activity android:name=".ui.SavedSetlistActivity"></activity>
+        <activity android:name=".ui.SetlistActivity" />
+        <activity android:name=".ui.ShowsActivity" />
+        <activity android:name=".ui.SearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -23,7 +24,7 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name="com.example.gigpad.MainActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
