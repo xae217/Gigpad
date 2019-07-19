@@ -34,16 +34,19 @@ public class SavedSetlistAdapter extends RecyclerView.Adapter<SavedSetlistAdapte
 
     @Override
     public void onBindViewHolder(@NonNull SavedSetlistAdapter.ViewHolder holder, int i) {
-        String songTitle = mTracks.get(i).getName() ;
-        holder.songTitle.setText(String.format("%2d. %s", i + 1, songTitle));
+        String songTitle = mTracks.get(i).getName();
+        holder.songNum.setText(String.format("%d.", i + 1));
+        holder.songTitle.setText(songTitle);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView songTitle;
+        TextView songNum;
         RelativeLayout parentLayout;
         public ViewHolder (View itemView) {
             super(itemView);
             songTitle = itemView.findViewById(R.id.saved_song_title);
+            songNum = itemView.findViewById(R.id.saved_song_num);
             parentLayout = itemView.findViewById(R.id.saved_song_parent_layout);
         }
     }

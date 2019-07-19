@@ -87,10 +87,12 @@ public class ShowsActivity extends AppCompatActivity {
             public void onResponse(Call<ArtistsPager> call, Response<ArtistsPager> response) {
                 if (response.code() == 200) {
                     ArtistsPager artistsPager = response.body();
-                    if (artistsPager.getArtists() != null) {
+                    if (artistsPager.getArtists() != null || !artistsPager.getArtists().getItems().isEmpty()) {
                         adapter.setArtist(artistsPager.getArtists().getItems().get(0));
-                        String imgUrl = artistsPager.getArtists().getItems().get(0).getImages().get(0).getUrl();
-                        new DownloadImageTask(findViewById(R.id.artistImage)).execute(imgUrl);
+                        if (!artistsPager.getArtists().getItems().get(0).getImages().isEmpty()) {
+                            String imgUrl = artistsPager.getArtists().getItems().get(0).getImages().get(0).getUrl();
+                            new DownloadImageTask(findViewById(R.id.artistImage)).execute(imgUrl);
+                        }
                     }
 
                 }
