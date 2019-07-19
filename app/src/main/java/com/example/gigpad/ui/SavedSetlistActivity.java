@@ -25,9 +25,7 @@ public class SavedSetlistActivity extends AppCompatActivity {
         setContentView(R.layout.activity_saved_setlist);
         mSavedSetlist = getIntent().getParcelableExtra("SAVED_SETLIST");
         initRecyclerView();
-        TextView title =  findViewById(R.id.ss_title);
-        title.setText(mSavedSetlist.getArtist().get(0).getName());
-        new DownloadImageTask(findViewById(R.id.ss_artistImage)).execute(mSavedSetlist.getArtist().get(0).getImage());
+        displayHeader();
     }
 
     private void initRecyclerView() {
@@ -35,5 +33,13 @@ public class SavedSetlistActivity extends AppCompatActivity {
         SavedSetlistAdapter adapter = new SavedSetlistAdapter((ArrayList<Track>) mSavedSetlist.getTrack(), this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void displayHeader() {
+        TextView title =  findViewById(R.id.ss_title);
+        TextView date = findViewById(R.id.ss_date);
+        title.setText(mSavedSetlist.getArtist().get(0).getName());
+        date.setText((mSavedSetlist.getSetlist().getDate()));
+        new DownloadImageTask(findViewById(R.id.ss_artistImage)).execute(mSavedSetlist.getArtist().get(0).getImage());
     }
 }

@@ -28,8 +28,7 @@ public class SavedSetlistAdapter extends RecyclerView.Adapter<SavedSetlistAdapte
     @Override
     public SavedSetlistAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.view_saved_setlist_track, viewGroup, false);
-        SavedSetlistAdapter.ViewHolder holder = new SavedSetlistAdapter.ViewHolder(view);
-        return holder;
+        return new SavedSetlistAdapter.ViewHolder(view);
     }
 
     @Override

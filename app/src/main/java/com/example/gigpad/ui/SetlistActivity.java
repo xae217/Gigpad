@@ -62,19 +62,22 @@ public class SetlistActivity extends AppCompatActivity {
         TextView title = findViewById(R.id.setlist_title);
         setList = getIntent().getParcelableExtra("SETLIST");
         artist = getIntent().getParcelableExtra("ARTIST");
-        String fDate;
-        try {
-            Date date = new SimpleDateFormat("dd-MM-yyyy").parse(setList.getEventDate());
-            fDate = new SimpleDateFormat("MMM dd, yyyy").format(date);
-            title.setText(String.format("%s | %s", setList.getArtist().getName(), fDate));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        title.setText(String.format("%s - %s", setList.getArtist().getName(), convertDate(setList.getEventDate())));
         for (Set set : setList.getSets().getSets()) {
             songs.addAll(set.getSongs());
         }
     }
 
+    private String convertDate(String d) {
+        String newDate = d;
+        try {
+            Date date = new SimpleDateFormat("dd-MM-yyyy").parse(d);
+            newDate = new SimpleDateFormat("MMM dd, yyyy").format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return newDate;
+    }
     public void createPlaylist(View view) {
         new PlaylistTask().execute("","","");
     }

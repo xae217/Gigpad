@@ -46,7 +46,7 @@
                         android:id="@+id/artistImage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:contentDescription="Artist Image"
+                        android:contentDescription="@string/artist_image"
                         app:srcCompat="@android:color/transparent" />
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>
