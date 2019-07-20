@@ -8,4 +8,6 @@
     <string name="pleaseWait">Please wait</string>
     <string name="authFailed">Spotify authentication failed.</string>
     <string name="artist_image">Artist Image</string>
+    <string name="more_menu">More Menu</string>
+    <string name="delete">Delete</string>
 </resources>

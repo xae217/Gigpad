@@ -3,14 +3,19 @@ package com.example.gigpad.ui.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.gigpad.R;
 import com.example.gigpad.db.SavedSetlist;
+import com.example.gigpad.tasks.DeleteSetlistTask;
 import com.example.gigpad.tasks.DownloadImageTask;
 import com.example.gigpad.ui.SavedSetlistActivity;
 
@@ -20,11 +25,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.RecyclerViewHolder> {
-    private List<SavedSetlist> savedSetlists;
+    private List<SavedSetlist> mSavedSetlists;
     private Context mContext;
 
-    public MainAdapter(List<SavedSetlist> savedSetlists, Context mContext) {
-        this.savedSetlists = savedSetlists;
+    public MainAdapter(List<SavedSetlist> mSavedSetlists, Context mContext) {
+        this.mSavedSetlists = mSavedSetlists;
         this.mContext = mContext;
     }
 
@@ -37,7 +42,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.RecyclerViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.RecyclerViewHolder holder, int position) {
-        SavedSetlist savedSetlist = savedSetlists.get(position);
+        SavedSetlist savedSetlist = mSavedSetlists.get(position);
         holder.setlistName.setText(savedSetlist.getArtist().get(0).getName());
         holder.setlistDate.setText(savedSetlist.getSetlist().getDate());
         holder.setlistLocation.setText(savedSetlist.getSetlist().getLocation());
@@ -48,22 +53,46 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.RecyclerViewHo
 
         holder.parentLayout.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, SavedSetlistActivity.class);
-            intent.putExtra("SAVED_SETLIST", savedSetlists.get(position));
+            intent.putExtra("SAVED_SETLIST", mSavedSetlists.get(position));
             mContext.startActivity(intent);
+        });
+
+        holder.btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popup = new PopupMenu(holder.btnMenu.getContext(), view);
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.menu_delete:
+                                new DeleteSetlistTask(mContext).execute(mSavedSetlists.get(holder.getAdapterPosition()).getSetlist());
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.ss_more_menu, popup.getMenu());
+                popup.show();
+            }
         });
     }
 
     @Override
     public int getItemCount() {
-        return savedSetlists.size();
+        return mSavedSetlists.size();
     }
-    static class RecyclerViewHolder extends RecyclerView.ViewHolder {
+
+    public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
         private TextView setlistName;
         private TextView setlistLocation;
         private TextView setlistLength;
         private TextView setlistDate;
         private RelativeLayout parentLayout;
         private ImageView artistImage;
+        private ImageButton btnMenu;
         RecyclerViewHolder(View view) {
             super(view);
             setlistName = itemView.findViewById(R.id.saved_setlist_title);
@@ -72,11 +101,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.RecyclerViewHo
             parentLayout = itemView.findViewById(R.id.saved_setlist_parent_layout);
             artistImage = itemView.findViewById(R.id.saved_artistImage);
             setlistDate = itemView.findViewById(R.id.saved_setlist_date);
+            btnMenu = itemView.findViewById(R.id.ss_menu_button);
         }
     }
 
     public void addItems(List<SavedSetlist> s) {
-        this.savedSetlists = s;
+        this.mSavedSetlists = s;
         notifyDataSetChanged();
     }
 }
