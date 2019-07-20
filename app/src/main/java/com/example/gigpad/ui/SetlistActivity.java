@@ -159,8 +159,8 @@ public class SetlistActivity extends AppCompatActivity {
         private void insertSetlistToDb() {
             newSetlist.setArtistId(newArtist.getId());
             AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
-            db.setlistDao().insert(newSetlist);
             db.artistDoa().insert(newArtist);
+            db.setlistDao().insert(newSetlist);
             for (Track t : newTracks) {
                 db.trackDoa().insert(t);
             }

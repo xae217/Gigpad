@@ -5,17 +5,17 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
-@Entity(tableName = "setlist")
-/* TODO: Look into using foreign keys
+
+import static androidx.room.ForeignKey.CASCADE;
+
+// TODO: Look into using foreign keys
 @Entity(tableName = "setlist",
-        foreignKeys = implements Parcelable {@ForeignKey(entity = Track.class,
+        foreignKeys = { @ForeignKey(entity = Artist.class,
         parentColumns = "id",
-        childColumns = "setlistId",
-        onDelete = CASCADE), @ForeignKey(entity = Artist.class,
-        parentColumns = "artistId",
-        childColumns = "id",
-        onDelete = CASCADE)}) */
+        childColumns = "artistId",
+        onDelete = CASCADE)})
 public class Setlist implements Parcelable {
     @PrimaryKey
     @NonNull

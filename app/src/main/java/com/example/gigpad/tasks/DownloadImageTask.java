@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import java.io.InputStream;
 
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-    private ImageView bmImage;
+    private ImageView bmImage; //TODO fix leak
 
     public DownloadImageTask(ImageView bmImage) {
         this.bmImage = bmImage;
