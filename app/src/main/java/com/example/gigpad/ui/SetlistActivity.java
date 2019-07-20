@@ -78,6 +78,7 @@ public class SetlistActivity extends AppCompatActivity {
         }
         return newDate;
     }
+
     public void createPlaylist(View view) {
         new PlaylistTask().execute("","","");
     }
@@ -121,7 +122,7 @@ public class SetlistActivity extends AppCompatActivity {
 
                     newSetlist = new Setlist(spotifyPlaylist.getId(), spotifyPlaylist.getName(),
                             spotifyPlaylist.getDescription(),
-                            setList.getEventDate(),
+                            convertDate(setList.getEventDate()),
                             setList.getVenue().getCity().getName() + ", " + setList.getVenue().getCity().getStateCode(),
                             SpotifySession.getInstance().getUserID(),
                             "");

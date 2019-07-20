@@ -73,7 +73,7 @@
         android:layout_marginBottom="2dp"
         android:layout_toEndOf="@+id/card_view_for_image"
         android:background="@android:color/transparent"
-        android:textColor="@color/textMedium"
+        android:textColor="@color/textLow"
         android:textSize="13sp" />
 
     <ImageButton
