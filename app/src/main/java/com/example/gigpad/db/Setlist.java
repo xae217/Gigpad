@@ -6,16 +6,17 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-// TODO: Look into using foreign keys
 @Entity(tableName = "setlist",
         foreignKeys = { @ForeignKey(entity = Artist.class,
         parentColumns = "id",
         childColumns = "artistId",
-        onDelete = CASCADE)})
+        onDelete = CASCADE)},
+        indices = {@Index(value = {"artistId"})})
 public class Setlist implements Parcelable {
     @PrimaryKey
     @NonNull
@@ -108,4 +109,6 @@ public class Setlist implements Parcelable {
             return new Setlist[size];
         }
     };
+
+
 }

@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.room.Embedded;
@@ -32,7 +33,8 @@ public class SavedSetlist implements Parcelable {
     }
 
     public List<Track> getTrack() {
-        return track;
+        Collections.sort(this.track);
+        return this.track;
     }
 
     protected SavedSetlist(Parcel in) {

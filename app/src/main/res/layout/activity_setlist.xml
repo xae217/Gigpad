@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.SetlistActivity">
+    tools:context=".ui.SetlistActivity"
+    android:id="@+id/setlist_layout">
 
     <TextView
         android:id="@+id/setlist_title"
@@ -43,7 +44,7 @@
         android:layout_marginEnd="162dp"
         android:layout_marginBottom="28dp"
         android:onClick="createPlaylist"
-        android:text="Create Playlist"
+        android:text="@string/create_playlist"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

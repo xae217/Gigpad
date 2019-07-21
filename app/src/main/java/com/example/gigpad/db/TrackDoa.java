@@ -21,6 +21,6 @@ public interface TrackDoa {
     @Query("DELETE FROM setlist WHERE id = :setlistId")
     void deleteAllFromSetlist(String setlistId);
 
-    @Query("SELECT * FROM track WHERE id = :setlistId")
+    @Query("SELECT * FROM track WHERE id = :setlistId ORDER BY trackNum ASC" )
     LiveData<List<Track>> getTracks(String setlistId);
 }

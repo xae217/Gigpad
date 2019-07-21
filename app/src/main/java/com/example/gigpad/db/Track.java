@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 
 import static androidx.room.ForeignKey.CASCADE;
 
@@ -14,8 +15,9 @@ import static androidx.room.ForeignKey.CASCADE;
         foreignKeys = {@ForeignKey(entity = Setlist.class,
         parentColumns = "id",
         childColumns = "setlistId",
-        onDelete = CASCADE)})
-public class Track implements Parcelable{
+        onDelete = CASCADE)},
+        indices = {@Index(value = {"setlistId", "id"})})
+public class Track implements Parcelable, Comparable<Track>{
     @NonNull
     private String id;
     @NonNull
@@ -95,4 +97,9 @@ public class Track implements Parcelable{
             return new Track[size];
         }
     };
+
+    @Override
+    public int compareTo(Track t) {
+        return this.trackNum - t.trackNum;
+    }
 }

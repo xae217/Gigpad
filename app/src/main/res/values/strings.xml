@@ -13,4 +13,6 @@
     <string name="search">Search</string>
     <string name="empty_setlist">Sorry, there are no songs in this setlist yet.</string>
     <string name="song_not_found">One or more songs could not be found.</string>
+    <string name="create_playlist">Create Playlist</string>
+    <string name="creating_playlist">Creating Playlist.</string>
 </resources>
