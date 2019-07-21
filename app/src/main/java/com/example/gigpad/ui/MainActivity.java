@@ -16,6 +16,7 @@ import com.example.gigpad.spotify.SpotifySession;
 import com.example.gigpad.spotify.User;
 import com.example.gigpad.ui.adapters.MainAdapter;
 import com.facebook.stetho.Stetho;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -23,6 +24,7 @@ import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.Observer;
@@ -37,8 +39,8 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     private static final String REDIRECT_URI = "gigpad://callback";
     private static final int REQUEST_CODE = 1337;
-    private SetlistViewModel setlistViewModel;
     private RecyclerView recyclerView;
+    private FloatingActionButton fabAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +48,34 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(
                 AppCompatDelegate.MODE_NIGHT_YES);
         setContentView(R.layout.activity_main);
-        spotifyAuthentication();
-        recyclerView = findViewById(R.id.savedSetlistRecyclerView);
         MainAdapter adapter = new MainAdapter(new ArrayList<>(), this);
+        fabAdd = findViewById(R.id.fab_add);
+        spotifyAuthentication();
+        initRecyclerView(adapter);
+        setViewModel(adapter);
+        Stetho.initializeWithDefaults(this); //TODO for DEBUG only. Remove gradel dependency
+
+    }
+
+    private void initRecyclerView(MainAdapter adapter) {
+        recyclerView = findViewById(R.id.savedSetlistRecyclerView);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        Stetho.initializeWithDefaults(this); //TODO for DEBUG only. Remove gradel dependency
-        setlistViewModel = ViewModelProviders.of(this).get(SetlistViewModel.class);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && fabAdd.getVisibility() == View.VISIBLE) {
+                    fabAdd.hide();
+                } else if (dy < 0 && fabAdd.getVisibility() != View.VISIBLE) {
+                    fabAdd.show();
+                }
+            }
+        });
+    }
+
+    private void setViewModel(MainAdapter adapter) {
+        SetlistViewModel setlistViewModel = ViewModelProviders.of(this).get(SetlistViewModel.class);
         setlistViewModel.getmSetlists().observe(MainActivity.this, new Observer<List<SavedSetlist>>() {
             @Override
             public void onChanged(List<SavedSetlist> savedSetlists) {
@@ -60,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     protected void onStart() {
