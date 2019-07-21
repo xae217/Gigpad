@@ -12,4 +12,5 @@
     <string name="delete">Delete</string>
     <string name="search">Search</string>
     <string name="empty_setlist">Sorry, there are no songs in this setlist yet.</string>
+    <string name="song_not_found">One or more songs could not be found.</string>
 </resources>

@@ -36,7 +36,7 @@ public class SetlistAdapter extends RecyclerView.Adapter<SetlistAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        String songTitle = mSongs.get(i).getName() ;
+        String songTitle = mSongs.get(i).getName();
         viewHolder.songTitle.setText(String.format("%2d. %s", i + 1, songTitle));
     }
 

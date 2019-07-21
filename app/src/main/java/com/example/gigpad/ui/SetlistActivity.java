@@ -3,14 +3,13 @@ package com.example.gigpad.ui;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gigpad.R;
-import com.example.gigpad.db.Artist;
 import com.example.gigpad.db.AppDatabase;
+import com.example.gigpad.db.Artist;
 import com.example.gigpad.db.Setlist;
 import com.example.gigpad.db.Track;
 import com.example.gigpad.setlist.Set;
@@ -64,7 +63,11 @@ public class SetlistActivity extends AppCompatActivity {
         artist = getIntent().getParcelableExtra("ARTIST");
         title.setText(String.format("%s - %s", setList.getArtist().getName(), convertDate(setList.getEventDate())));
         for (Set set : setList.getSets().getSets()) {
-            songs.addAll(set.getSongs());
+            for(Song s : set.getSongs()) {
+                if (!s.getName().isEmpty()) {
+                    songs.add(s);
+                }
+            }
         }
     }
 
@@ -79,11 +82,12 @@ public class SetlistActivity extends AppCompatActivity {
         return newDate;
     }
 
+    /* on button Click */
     public void createPlaylist(View view) {
         new PlaylistTask().execute("","","");
     }
 
-
+    /* parse query for web call */
     private String parseQuery(String artist, String track) {
        return "artist:" + artist + " track:" + track;
     }
@@ -102,12 +106,14 @@ public class SetlistActivity extends AppCompatActivity {
         private Setlist newSetlist;
         private Artist newArtist;
         private ArrayList<Track> newTracks;
+        private ArrayList<String> tracksNotFound;
 
         @Override
         protected void onPreExecute() {
             this.dialog.setMessage(getString(R.string.pleaseWait));
             this.dialog.show();
             this.newTracks = new ArrayList<>();
+            this.tracksNotFound = new ArrayList<>();
         }
 
         @Override
@@ -119,6 +125,10 @@ public class SetlistActivity extends AppCompatActivity {
                 Response<Playlist> response = call.execute();
                 if (response.code() == 201) {
                     Playlist spotifyPlaylist = response.body();
+
+                    if (spotifyPlaylist == null) {
+                        return "Unable to create Playlist.";
+                    }
 
                     newSetlist = new Setlist(spotifyPlaylist.getId(), spotifyPlaylist.getName(),
                             spotifyPlaylist.getDescription(),
@@ -133,10 +143,6 @@ public class SetlistActivity extends AppCompatActivity {
                             artist.getUri(),
                             setList.getArtist().getMbid());
 
-
-                    if (spotifyPlaylist == null) {
-                        return "Unable to create Playlist.";
-                    }
                     //Add songs to playlist given the URIs
                     Call<SnapshotId> callAddTrack = SpotifyAPI.getService().addToPlaylist(spotifyPlaylist.getId(),
                             SpotifySession.getInstance().getToken(),
@@ -155,6 +161,9 @@ public class SetlistActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             dialog.dismiss();
+            if(!tracksNotFound.isEmpty()) {
+                Toast.makeText(getApplicationContext(), R.string.song_not_found, Toast.LENGTH_SHORT).show(); //TODO convert to SnackBar
+            }
             Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
         }
         private void insertSetlistToDb() {
@@ -188,9 +197,12 @@ public class SetlistActivity extends AppCompatActivity {
                                     spotifyTrack.getDuration_ms());
                             newTracks.add(newTrack);
                         }
+                        else {
+                            tracksNotFound.add(s.getName());
+                        }
                     }
                     else
-                        Log.d(TAG,  "NULL - Track not found");
+                        tracksNotFound.add(s.getName());
                 }
             }
             return uris.toString();
