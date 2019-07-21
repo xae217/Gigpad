@@ -11,4 +11,5 @@
     <string name="more_menu">More Menu</string>
     <string name="delete">Delete</string>
     <string name="search">Search</string>
+    <string name="empty_setlist">Sorry, there are no songs in this setlist yet.</string>
 </resources>
