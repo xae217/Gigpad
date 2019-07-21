@@ -12,6 +12,7 @@ import com.example.gigpad.R;
 import com.example.gigpad.setlist.SetList;
 import com.example.gigpad.spotify.Artist;
 import com.example.gigpad.ui.SetlistActivity;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,10 +58,17 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder>{
 
         viewHolder.showLocation.setText(showTitle);
         viewHolder.parentLayout.setOnClickListener(view -> {
-            Intent intent = new Intent(mContext, SetlistActivity.class);
-            intent.putExtra("SETLIST", mShows.get(i));
-            intent.putExtra("ARTIST", this.artist);
-            mContext.startActivity(intent);
+            if(mShows.get(i).getSets().getSets().isEmpty()) {
+                Snackbar.make(viewHolder.parentLayout, mContext.getString(R.string.empty_setlist),
+                        Snackbar.LENGTH_LONG)
+                        .show();
+            }
+            else {
+                Intent intent = new Intent(mContext, SetlistActivity.class);
+                intent.putExtra("SETLIST", mShows.get(i));
+                intent.putExtra("ARTIST", this.artist);
+                mContext.startActivity(intent);
+            }
         });
     }
 
