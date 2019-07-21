@@ -53,4 +53,5 @@ dependencies {
 
     //DEBUG
     implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }

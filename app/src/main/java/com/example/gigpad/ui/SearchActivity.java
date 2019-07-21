@@ -27,7 +27,7 @@ import retrofit2.Response;
 public class SearchActivity extends AppCompatActivity {
     private ArrayList<Artist> artists;
     private SearchAdapter adapter;
-    private static final String TAG = "SearchActivity";
+    private static final String TAG = "SearchActivity"; //TODO remove TAGs
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +38,7 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
 
@@ -61,7 +62,6 @@ public class SearchActivity extends AppCompatActivity {
                 return true;
             }
         });
-
         return true;
     }
 
