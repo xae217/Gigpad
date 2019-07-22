@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">gigpad</string>
+    <string name="app_name">Gigpad</string>
     <string name="title_activity_login">Sign in</string>
     <string name="spotifyClientId">07450964b36e46d6ab07178b94916e4a</string>
     <string name="networkFailure">Network failure.</string>
