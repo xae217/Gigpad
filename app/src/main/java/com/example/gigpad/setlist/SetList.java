@@ -112,4 +112,8 @@ public class SetList implements Parcelable {
             return new SetList[size];
         }
     };
+
+    public void setEventDate(String eventDate) {
+        this.eventDate = eventDate;
+    }
 }

@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
         <!-- Customize your theme here. -->
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColor">@color/textMedium</item>
-        <item name="colorButtonNormal">@color/colorAccent</item>
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <!--<item name="android:textColor">@color/textMedium</item>-->
+        <!--<item name="colorButtonNormal">@color/colorAccent</item>-->
     </style>
 </resources>
