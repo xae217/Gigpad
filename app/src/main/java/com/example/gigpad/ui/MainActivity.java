@@ -16,7 +16,6 @@ import com.example.gigpad.spotify.SpotifyAPI;
 import com.example.gigpad.spotify.SpotifySession;
 import com.example.gigpad.spotify.User;
 import com.example.gigpad.ui.adapters.MainAdapter;
-import com.facebook.stetho.Stetho;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
@@ -36,7 +35,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 public class MainActivity extends AppCompatActivity {
     private static final String REDIRECT_URI = "gigpad://callback";
     private static final int REQUEST_CODE = 1337;
@@ -50,13 +48,11 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(
                 AppCompatDelegate.MODE_NIGHT_YES);
         setContentView(R.layout.activity_main);
+        spotifyAuthentication();
         MainAdapter adapter = new MainAdapter(new ArrayList<>(), this);
         fabAdd = findViewById(R.id.fab_add);
-        spotifyAuthentication();
         initRecyclerView(adapter);
         setViewModel(adapter);
-        Stetho.initializeWithDefaults(this); //TODO for DEBUG only. Remove gradel dependency
-
     }
 
     private void initRecyclerView(MainAdapter adapter) {

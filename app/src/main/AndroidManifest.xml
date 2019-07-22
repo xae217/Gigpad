@@ -11,7 +11,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:screenOrientation="portrait">
         <activity android:name=".ui.SavedSetlistActivity"></activity>
         <activity android:name=".ui.SetlistActivity" />
         <activity android:name=".ui.ShowsActivity" />
@@ -35,7 +36,4 @@
             android:name="com.spotify.sdk.android.authentication.LoginActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
-
-
-
 </manifest>

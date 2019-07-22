@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class SetlistAdapter extends RecyclerView.Adapter<SetlistAdapter.ViewHolder>{
-    private static final String TAG = "SetlistAdapter";
     private ArrayList<Song> mSongs;
     private Context mContext;
 
@@ -29,8 +28,7 @@ public class SetlistAdapter extends RecyclerView.Adapter<SetlistAdapter.ViewHold
     @Override
     public SetlistAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.setlist_search_view, viewGroup, false);
-        SetlistAdapter.ViewHolder holder = new SetlistAdapter.ViewHolder(view);
-        return holder;
+        return new SetlistAdapter.ViewHolder(view);
     }
 
 
