@@ -17,6 +17,7 @@ import com.example.gigpad.tasks.DownloadImageTask;
 import com.example.gigpad.ui.adapters.SearchAdapter;
 import com.example.gigpad.ui.adapters.ShowsAdapter;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -91,7 +92,7 @@ public class ShowsActivity extends AppCompatActivity {
                         adapter.setArtist(artistsPager.getArtists().getItems().get(0));
                         if (!artistsPager.getArtists().getItems().get(0).getImages().isEmpty()) {
                             String imgUrl = artistsPager.getArtists().getItems().get(0).getImages().get(0).getUrl();
-                            new DownloadImageTask(findViewById(R.id.artistImage)).execute(imgUrl);
+                            new DownloadImageTask(new WeakReference<>(findViewById(R.id.artistImage))).execute(imgUrl);
                         }
                     }
 

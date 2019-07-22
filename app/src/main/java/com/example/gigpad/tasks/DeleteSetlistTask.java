@@ -6,16 +6,18 @@ import android.os.AsyncTask;
 import com.example.gigpad.db.AppDatabase;
 import com.example.gigpad.db.Setlist;
 
-public class DeleteSetlistTask extends AsyncTask<Setlist, Void, String> {
-    private Context mContext; //TODO fix leak
+import java.lang.ref.WeakReference;
 
-    public DeleteSetlistTask(Context context) {
+public class DeleteSetlistTask extends AsyncTask<Setlist, Void, String> {
+    private WeakReference<Context> mContext;
+
+    public DeleteSetlistTask(WeakReference<Context> context) {
         mContext = context;
     }
 
     @Override
     protected String doInBackground(Setlist... s) {
-        AppDatabase db = AppDatabase.getDatabase(mContext);
+        AppDatabase db = AppDatabase.getDatabase(mContext.get());
         db.setlistDao().delete(s[0]);
         return "Deleted.";
     }

@@ -11,6 +11,7 @@ import com.example.gigpad.setlist.Song;
 import com.example.gigpad.tasks.PlaylistTask;
 import com.example.gigpad.ui.adapters.SetlistAdapter;
 
+import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,6 +73,6 @@ public class SetlistActivity extends AppCompatActivity {
     /* on button Click */
     public void createPlaylist(View view) {
         ConstraintLayout l = findViewById(R.id.setlist_layout);
-        new PlaylistTask(this, songs, setList, artist, l).execute("","","");
+        new PlaylistTask(new WeakReference<>(this), songs, setList, artist, new WeakReference<>(l)).execute();
     }
 }

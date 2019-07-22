@@ -20,6 +20,7 @@ import com.example.gigpad.spotify.TracksPager;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,20 +28,20 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class PlaylistTask extends AsyncTask<String, String, String> {
+public class PlaylistTask extends AsyncTask<Void, Void, String> {
     private AlertDialog dialog;
     private Setlist newSetlist;
     private Artist newArtist;
     private ArrayList<Track> newTracks;
     private ArrayList<String> tracksNotFound;
-    private Context context;
+    private WeakReference<Context> context;
     private ArrayList<Song> songs; // list of songs in a set list
     private SetList setList;
     private com.example.gigpad.spotify.Artist artist;
-    private ConstraintLayout parentLayout;
+    private WeakReference<ConstraintLayout> parentLayout;
 
 
-    public PlaylistTask(Context context, ArrayList<Song> songs, SetList setList, com.example.gigpad.spotify.Artist artist, ConstraintLayout parentLayout) {
+    public PlaylistTask(WeakReference<Context> context, ArrayList<Song> songs, SetList setList, com.example.gigpad.spotify.Artist artist, WeakReference<ConstraintLayout> parentLayout) {
         this.context = context;
         this.songs = songs;
         this.setList = setList;
@@ -50,7 +51,7 @@ public class PlaylistTask extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPreExecute() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context.get());
         alertBuilder.setCancelable(false); // if you want user to wait for some process to finish,
         alertBuilder.setView(R.layout.layout_loading_dialog);
         dialog = alertBuilder.create();
@@ -60,7 +61,7 @@ public class PlaylistTask extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected String doInBackground(String ... strings) {
+    protected String doInBackground(Void... params) {
         //Create playlist
         Call<Playlist> call = SpotifyAPI.getService().createPlaylist(SpotifySession.getInstance().getUserID(),
                 SpotifySession.getInstance().getToken(),"application/json", createPlaylistRequestBody());
@@ -93,11 +94,11 @@ public class PlaylistTask extends AsyncTask<String, String, String> {
                 Response responseAddTrack = callAddTrack.execute();
                 if (responseAddTrack.code() == 201) {
                     insertSetlistToDb();
-                    return context.getString(R.string.createdPlaylist);
+                    return context.get().getString(R.string.createdPlaylist);
                 }
             }
         } catch (IOException e) {
-            Toast.makeText(context, R.string.networkFailure, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context.get(), R.string.networkFailure, Toast.LENGTH_SHORT).show();
         }
         return "Something went wrong.";
     }
@@ -105,13 +106,13 @@ public class PlaylistTask extends AsyncTask<String, String, String> {
     protected void onPostExecute(String s) {
         dialog.dismiss();
         if(!tracksNotFound.isEmpty()) {
-            Snackbar snack = Snackbar.make(parentLayout, context.getString(R.string.song_not_found),
+            Snackbar snack = Snackbar.make(parentLayout.get(), context.get().getString(R.string.song_not_found),
                     Snackbar.LENGTH_SHORT);
             snack.show();
             snack.addCallback(new Snackbar.Callback(){
                 @Override
                 public void onDismissed(Snackbar snackbar, int event) {
-                    Snackbar.make(parentLayout, s,
+                    Snackbar.make(parentLayout.get(), s,
                             Snackbar.LENGTH_SHORT)
                             .show();
                 }
@@ -119,14 +120,14 @@ public class PlaylistTask extends AsyncTask<String, String, String> {
 
         }
         else {
-            Snackbar.make(parentLayout, s,
+            Snackbar.make(parentLayout.get(), s,
                     Snackbar.LENGTH_SHORT)
                     .show();
         }
     }
     private void insertSetlistToDb() {
         newSetlist.setArtistId(newArtist.getId());
-        AppDatabase db = AppDatabase.getDatabase(context);
+        AppDatabase db = AppDatabase.getDatabase(context.get());
         db.artistDoa().insert(newArtist);
         db.setlistDao().insert(newSetlist);
         for (Track t : newTracks) {

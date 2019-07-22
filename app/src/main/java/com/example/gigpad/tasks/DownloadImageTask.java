@@ -7,11 +7,12 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-    private ImageView bmImage; //TODO fix leak
+    private WeakReference<ImageView> bmImage;
 
-    public DownloadImageTask(ImageView bmImage) {
+    public DownloadImageTask(WeakReference<ImageView> bmImage) {
         this.bmImage = bmImage;
     }
 
@@ -29,7 +30,7 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
     }
 
     protected void onPostExecute(Bitmap result) {
-        bmImage.setImageBitmap(result);
-        bmImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        bmImage.get().setImageBitmap(result);
+        bmImage.get().setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
 }
