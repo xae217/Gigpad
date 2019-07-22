@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">gigpad</string>
+    <string name="app_name">Gigpad</string>
     <string name="title_activity_login">Sign in</string>
     <string name="spotifyClientId">07450964b36e46d6ab07178b94916e4a</string>
     <string name="networkFailure">Network failure.</string>
@@ -15,4 +15,7 @@
     <string name="song_not_found">One or more songs could not be found.</string>
     <string name="create_playlist">Create Playlist</string>
     <string name="creating_playlist">Creating Playlist.</string>
+    <string name="empty_saved_setlists">Your saved setlists will appear here.</string>
+    <string name="artist_name">Search Artist</string>
+    <string name="find_setlists">Find setlists for your favorite artists.</string>
 </resources>

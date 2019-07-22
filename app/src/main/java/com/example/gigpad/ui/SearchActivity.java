@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.gigpad.R;
 import com.example.gigpad.setlist.Artist;
@@ -27,6 +29,7 @@ import retrofit2.Response;
 public class SearchActivity extends AppCompatActivity {
     private ArrayList<Artist> artists;
     private SearchAdapter adapter;
+    private LinearLayout emptyView;
     private static final String TAG = "SearchActivity"; //TODO remove TAGs
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class SearchActivity extends AppCompatActivity {
         artists = new ArrayList<>();
         initRecyclerView();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -46,6 +50,14 @@ public class SearchActivity extends AppCompatActivity {
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
+        searchView.setQueryHint(getString(R.string.artist_name));
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                emptyView.setVisibility(View.GONE);
+            }
+        });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -57,6 +69,7 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String s) {
                 if (searchView.getQuery().length() == 0) {
                     adapter.clear();
+                    emptyView.setVisibility(View.VISIBLE);
                 }
                 searchArtist(s);
                 return true;
@@ -87,6 +100,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        emptyView = findViewById(R.id.search_empty_view);
         adapter = new SearchAdapter(artists,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

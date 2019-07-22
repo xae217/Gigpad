@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.gigpad.R;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String REDIRECT_URI = "gigpad://callback";
     private static final int REQUEST_CODE = 1337;
     private RecyclerView recyclerView;
+    private LinearLayout emptyView;
     private FloatingActionButton fabAdd;
 
     @Override
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initRecyclerView(MainAdapter adapter) {
         recyclerView = findViewById(R.id.savedSetlistRecyclerView);
+        emptyView = findViewById(R.id.empty_view);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -79,7 +82,15 @@ public class MainActivity extends AppCompatActivity {
         setlistViewModel.getmSetlists().observe(MainActivity.this, new Observer<List<SavedSetlist>>() {
             @Override
             public void onChanged(List<SavedSetlist> savedSetlists) {
-                adapter.addItems(savedSetlists);
+                if (savedSetlists.isEmpty()) {
+                    recyclerView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                }
+                else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                    adapter.addItems(savedSetlists);
+                }
             }
         });
     }
