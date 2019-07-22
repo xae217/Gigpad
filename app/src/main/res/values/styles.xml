@@ -4,7 +4,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryVariant">@color/color_primary_variant</item>
-        <item name="colorSecondary">@color/color_primary</item>
+        <item name="colorSecondary">@color/color_secondary</item>
    -->
     </style>
 
@@ -18,4 +18,5 @@
         <item name="cornerFamilyBottomRight">rounded</item>
         <item name="cornerSize">24dp</item>
     </style>
+    
 </resources>

@@ -16,4 +16,44 @@
         app:layout_constraintVertical_bias="0">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/search_empty_view"
+        android:layout_width="225dp"
+        android:layout_height="134dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="74dp"
+            android:layout_height="59dp"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@drawable/search"
+            android:alpha=".40"/>
+
+        <TextView
+            android:id="@+id/empty_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="@string/find_setlists"
+            android:textColor="@color/textLow"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
