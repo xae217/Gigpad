@@ -19,6 +19,7 @@ import com.example.gigpad.tasks.DeleteSetlistTask;
 import com.example.gigpad.tasks.DownloadImageTask;
 import com.example.gigpad.ui.SavedSetlistActivity;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -49,7 +50,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.RecyclerViewHo
         String numSongs = savedSetlist.getTrack().size() + " song";
         if (savedSetlist.getTrack().size() > 1) numSongs += "s";
         holder.setlistLength.setText(numSongs);
-        new DownloadImageTask(holder.artistImage).execute(savedSetlist.getArtist().get(0).getImage());
+        new DownloadImageTask(new WeakReference<>(holder.artistImage)).execute(savedSetlist.getArtist().get(0).getImage());
 
         holder.parentLayout.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, SavedSetlistActivity.class);
@@ -66,7 +67,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.RecyclerViewHo
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.menu_delete:
-                                new DeleteSetlistTask(mContext).execute(mSavedSetlists.get(holder.getAdapterPosition()).getSetlist());
+                                new DeleteSetlistTask(new WeakReference<>(mContext))
+                                        .execute(mSavedSetlists.get(holder.getAdapterPosition()).getSetlist());
                                 return true;
                             default:
                                 return false;

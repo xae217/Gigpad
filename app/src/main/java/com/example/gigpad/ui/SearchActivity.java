@@ -30,7 +30,7 @@ public class SearchActivity extends AppCompatActivity {
     private ArrayList<Artist> artists;
     private SearchAdapter adapter;
     private LinearLayout emptyView;
-    private static final String TAG = "SearchActivity"; //TODO remove TAGs
+    private static final String TAG = "SearchActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +38,6 @@ public class SearchActivity extends AppCompatActivity {
         artists = new ArrayList<>();
         initRecyclerView();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

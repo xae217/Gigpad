@@ -9,6 +9,7 @@ import com.example.gigpad.db.Track;
 import com.example.gigpad.tasks.DownloadImageTask;
 import com.example.gigpad.ui.adapters.SavedSetlistAdapter;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +41,6 @@ public class SavedSetlistActivity extends AppCompatActivity {
         TextView date = findViewById(R.id.ss_date);
         title.setText(mSavedSetlist.getArtist().get(0).getName());
         date.setText((mSavedSetlist.getSetlist().getDate()));
-        new DownloadImageTask(findViewById(R.id.ss_artistImage)).execute(mSavedSetlist.getArtist().get(0).getImage());
+        new DownloadImageTask(new WeakReference<>(findViewById(R.id.ss_artistImage))).execute(mSavedSetlist.getArtist().get(0).getImage());
     }
 }
