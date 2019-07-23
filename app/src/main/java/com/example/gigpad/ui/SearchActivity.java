@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -44,19 +45,13 @@ public class SearchActivity extends AppCompatActivity {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
+        MenuItem menuItem =  menu.findItem(R.id.search_menu_item);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
         searchView.setQueryHint(getString(R.string.artist_name));
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                emptyView.setVisibility(View.GONE);
-            }
-        });
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -68,12 +63,27 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String s) {
                 if (searchView.getQuery().length() == 0) {
                     adapter.clear();
-                    emptyView.setVisibility(View.VISIBLE);
+//                    emptyView.setVisibility(View.VISIBLE);
                 }
                 searchArtist(s);
                 return true;
             }
         });
+
+        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                emptyView.setVisibility(View.GONE);
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                emptyView.setVisibility(View.VISIBLE);
+                return true;
+            }
+        });
+
         return true;
     }
 
@@ -85,7 +95,7 @@ public class SearchActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     SearchArtist searchResults = response.body();
                     if (searchResults != null) {
-                        refreshResults(searchResults);
+                        refreshResults(searchResults, searchTerm);
                     }
                 }
             }
@@ -105,11 +115,13 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void refreshResults(SearchArtist searchResults) {
+    private void refreshResults(SearchArtist searchResults, String searchTerm) {
         int top = searchResults.getArtists().size() < 10 ? searchResults.getArtists().size() : 9;
         adapter.clear();
         for (int i = 0; i < top; i++) {
-            if (searchResults.getArtists().get(i).getTmid() != null || searchResults.getArtists().size() < 3) {
+            if (searchResults.getArtists().get(i).getTmid() != null ||
+                    searchResults.getArtists().size() < 3 ||
+                    searchResults.getArtists().get(i).getName().equalsIgnoreCase(searchTerm)) {
                 artists.add(searchResults.getArtists().get(i));
                 adapter.notifyItemInserted(artists.size() - 1);
             }
