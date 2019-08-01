@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         // Check if result comes from the correct activity
+
         if (requestCode == REQUEST_CODE) {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             switch (response.getType()) {
@@ -108,8 +109,7 @@ public class MainActivity extends AppCompatActivity {
                     getUserId();
                     break;
                 case ERROR:
-                    Log.d("Debug", response.getError());
-                    Toast.makeText(getApplicationContext(), R.string.authFailed, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Spotify connection error: " + resultCode, Toast.LENGTH_LONG).show();
                     break;
             }
         }

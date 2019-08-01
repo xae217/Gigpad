@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.xae18.gigpad.R;
 import com.xae18.gigpad.db.AppDatabase;
 import com.xae18.gigpad.db.Artist;
@@ -17,7 +18,6 @@ import com.xae18.gigpad.spotify.SnapshotId;
 import com.xae18.gigpad.spotify.SpotifyAPI;
 import com.xae18.gigpad.spotify.SpotifySession;
 import com.xae18.gigpad.spotify.TracksPager;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -52,7 +52,7 @@ public class PlaylistTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPreExecute() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context.get());
-        alertBuilder.setCancelable(false); // if you want user to wait for some process to finish,
+        alertBuilder.setCancelable(false); // We want user to wait for the playlist to be created.
         alertBuilder.setView(R.layout.layout_loading_dialog);
         dialog = alertBuilder.create();
         dialog.show();
