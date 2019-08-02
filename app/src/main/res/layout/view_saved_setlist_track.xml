@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:id="@+id/saved_song_parent_layout"
+    android:padding="12dp"
+    android:background="@android:color/transparent">
+
+    <TextView
+        android:id="@+id/saved_song_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toEndOf="@+id/saved_song_num"
+        android:background="@android:color/transparent"
+        android:textColor="@color/textHigh"
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/saved_song_num"
+        android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:background="@android:color/transparent"
+        android:textColor="@color/textMedium"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="end"
+        />
+</RelativeLayout>

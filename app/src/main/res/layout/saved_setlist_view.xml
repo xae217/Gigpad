@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/saved_setlist_parent_layout"
+    android:padding="10dp"
+    android:layout_margin="10dp"
+    android:background="#12FFFFFF"
+    android:elevation="20dp">
+
+   
+
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/saved_artistImage"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        app:cardBackgroundColor="@android:color/transparent" />
+
+
+    <TextView
+        android:id="@+id/saved_setlist_title"
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/saved_artistImage"
+        android:background="@android:color/transparent"
+        android:textColor="@color/textHigh"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/saved_setlist_date"
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/saved_setlist_title"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toEndOf="@+id/saved_artistImage"
+        android:background="@android:color/transparent"
+        android:textColor="@color/textHigh"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/saved_setlist_location"
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="0dp"
+        android:layout_below="@+id/saved_setlist_date"
+        android:layout_toEndOf="@+id/saved_artistImage"
+        android:background="@android:color/transparent"
+        android:textColor="@color/textMedium"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/saved_setlist_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/saved_setlist_location"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="2dp"
+        android:layout_toEndOf="@+id/saved_artistImage"
+        android:background="@android:color/transparent"
+        android:textColor="@color/textLow"
+        android:textSize="13sp" />
+
+    <ImageButton
+        android:id="@+id/ss_menu_button"
+        android:layout_width="20dp"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="5dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/more_menu"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_dots"/>
+
+</RelativeLayout>
